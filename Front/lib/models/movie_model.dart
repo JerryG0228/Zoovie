@@ -2,13 +2,13 @@ class MovieModel {
   final String title;
   final String keyword;
   final String poster;
-  final bool like;
+  bool bookmark;
 
   MovieModel.fromJson(Map<String, dynamic> map)
       : title = map['title'],
         keyword = map['keyword'],
         poster = map['poster'],
-        like = map['like'];
+        bookmark = map['bookmark'];
 
   @override
   String toString() => "Movie<$title:$keyword>";

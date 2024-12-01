@@ -17,19 +17,19 @@ class _MainPageState extends State<MainPage> {
       "title": "사랑의 불시착",
       "keyword": "사랑/로맨스/판타지",
       "poster": "dummyMovie.png",
-      "like": false,
+      "bookmark": false,
     }),
     MovieModel.fromJson({
       "title": "사랑의 불시착",
       "keyword": "사랑/로맨스/판타지",
       "poster": "dummyMovie.png",
-      "like": true,
+      "bookmark": true,
     }),
     MovieModel.fromJson({
       "title": "사랑의 불시착",
       "keyword": "사랑/로맨스/판타지",
       "poster": "dummyMovie.png",
-      "like": false,
+      "bookmark": false,
     }),
   ];
 

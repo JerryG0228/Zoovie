@@ -15,7 +15,7 @@ class _CarouselState extends State<Carousel> {
   late List<MovieModel> movies;
   late List<Widget> images;
   late List<String> keywords;
-  late List<bool> likes;
+  late List<bool> bookmarks;
   int _currPage = 0;
   late String _currKeyword;
 
@@ -30,8 +30,15 @@ class _CarouselState extends State<Carousel> {
             ))
         .toList();
     keywords = movies.map((m) => m.keyword).toList();
-    likes = movies.map((m) => m.like).toList();
+    bookmarks = movies.map((m) => m.bookmark).toList();
     _currKeyword = keywords[0];
+  }
+
+  void toggleBookmark() {
+    setState(() {
+      bookmarks[_currPage] = !bookmarks[_currPage];
+      movies[_currPage].bookmark = bookmarks[_currPage];
+    });
   }
 
   @override
@@ -91,13 +98,13 @@ class _CarouselState extends State<Carousel> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton(
-              onPressed: () {},
+              onPressed: toggleBookmark,
               style: TextButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 15),
               ),
               child: Column(
                 children: [
-                  likes[_currPage]
+                  bookmarks[_currPage]
                       ? const Icon(
                           Icons.bookmark,
                           color: Colors.white,
@@ -184,7 +191,7 @@ class _CarouselState extends State<Carousel> {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: makeIndicator(likes, _currPage),
+          children: makeIndicator(bookmarks, _currPage),
         )
       ],
     );

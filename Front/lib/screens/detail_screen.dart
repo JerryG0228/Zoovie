@@ -13,12 +13,12 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  bool like = false;
+  bool bookmark = false;
 
   @override
   void initState() {
     super.initState();
-    like = widget.movie.like;
+    bookmark = widget.movie.bookmark;
   }
 
   @override
@@ -129,11 +129,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                     child: IconButton(
                                       onPressed: () {
                                         setState(() {
-                                          like = !like;
+                                          bookmark = !bookmark;
                                         });
                                       },
                                       icon: Icon(
-                                        like
+                                        bookmark
                                             ? Icons.bookmark
                                             : Icons.bookmark_outline,
                                         color: Colors.white,
