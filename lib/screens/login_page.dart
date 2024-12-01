@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zoovie/models/loginbox_model.dart';
+import 'package:zoovie/widgets/loginTextBox.dart';
 import 'package:zoovie/screens/main_page.dart';
 
 class LoginScreen extends StatefulWidget {
