@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zoovie/screens/login_page.dart';
 import 'package:zoovie/widgets/signup_text_field.dart';
+import 'package:dio/dio.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -50,6 +51,28 @@ class _SignupPageState extends State<SignupPage> {
     setState(() {
       // 폼 상태 업데이트
     });
+  }
+
+  Future<bool> _signUp() async {
+    final dio = Dio();
+    try {
+      final response = await dio.post(
+        'http://127.0.0.1:5000/signup',
+        data: {
+          'email': _emailController.text,
+          'password': _passwordController.text,
+          'username': _nicknameController.text,
+        },
+      );
+
+      if (response.statusCode == 201) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print('회원가입 에러: $e');
+      return false;
+    }
   }
 
   @override
@@ -175,28 +198,47 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ),
                     onPressed: _isFormValid()
-                        ? () {
+                        ? () async {
                             if (_formKey.currentState!.validate()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  backgroundColor: Color(0xff00FF99),
-                                  content: Center(
-                                    child: Text(
-                                      '회원가입 성공!',
-                                      style: TextStyle(
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
+                              final success = await _signUp();
+                              if (success) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    backgroundColor: Color(0xff00FF99),
+                                    content: Center(
+                                      child: Text(
+                                        '회원가입 성공!',
+                                        style: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginScreen()),
-                              );
+                                );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    backgroundColor: Colors.red,
+                                    content: Center(
+                                      child: Text(
+                                        '회원가입 실패. 다시 시도해주세요.',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
                             }
                           }
                         : null,

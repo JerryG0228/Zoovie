@@ -27,9 +27,9 @@ class _MyAppState extends State<MyApp> {
           secondary: Color(0xff00FF99),
         ),
       ),
-      home: LoginScreen(),
+      home: const LoginScreen(),
       routes: {
-        '/login_page': (context) => LoginScreen(),
+        '/login_page': (context) => const LoginScreen(),
       },
     );
   }

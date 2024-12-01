@@ -4,8 +4,11 @@ import 'package:zoovie/widgets/bottom_bar.dart';
 import 'package:zoovie/widgets/loginTextBox.dart';
 import 'package:zoovie/screens/main_page.dart';
 import 'package:zoovie/screens/signup_page.dart';
+import 'package:dio/dio.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -14,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool isFormValid = false;
+  final Dio _dio = Dio();
 
   @override
   void initState() {
@@ -34,6 +38,56 @@ class _LoginScreenState extends State<LoginScreen> {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  Future<void> _login(String email, String password) async {
+    try {
+      final response = await _dio.post(
+        'http://127.0.0.1:5000/login',
+        data: {
+          'email': email,
+          'password': password,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DefaultTabController(
+              length: 4,
+              child: Scaffold(
+                body: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    const MainPage(),
+                    Container(color: Colors.green),
+                    Container(color: Colors.blue),
+                    const MyPage(),
+                  ],
+                ),
+                bottomNavigationBar: const BottomBar(),
+              ),
+            ),
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      String errorMessage = '로그인에 실패했습니다.';
+      if (e.response?.statusCode == 401) {
+        errorMessage = '이메일 또는 비밀번호가 잘못되었습니다.';
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(16),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
   }
 
   @override
@@ -86,41 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ? () {
                             final email = emailController.text;
                             final password = passwordController.text;
-
-                            if (email == "test@test.com" &&
-                                password == "1234") {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DefaultTabController(
-                                    length: 4,
-                                    child: Scaffold(
-                                      body: TabBarView(
-                                        physics:
-                                            const NeverScrollableScrollPhysics(), // 스크롤로 페이지 이동 방지
-                                        children: [
-                                          const MainPage(),
-                                          Container(color: Colors.green),
-                                          Container(color: Colors.blue),
-                                          const MyPage(),
-                                        ],
-                                      ),
-                                      bottomNavigationBar: const BottomBar(),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('이메일 또는 비밀번호가 잘못되었습니다.'),
-                                  backgroundColor: Colors.red,
-                                  behavior: SnackBarBehavior.floating,
-                                  margin: EdgeInsets.all(16),
-                                  duration: Duration(seconds: 2),
-                                ),
-                              );
-                            }
+                            _login(email, password);
                           }
                         : null,
                     style: ElevatedButton.styleFrom(
