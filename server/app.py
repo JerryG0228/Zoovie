@@ -33,7 +33,7 @@ def signup():
 @app.route("/login", methods=["POST"])
 def login():
     data = request.json
-    user = users_collection.find_one({"username": data["username"]})
+    user = users_collection.find_one({"email": data["email"]})
     # 비밀번호 확인
     if not user or not bcrypt.checkpw(data["password"].encode('utf-8'), user["password"]):
         return jsonify({"error": "User does not exist"}), 401
