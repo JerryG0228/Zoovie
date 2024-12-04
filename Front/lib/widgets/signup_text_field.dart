@@ -11,6 +11,7 @@ Widget buildTextField({
   return TextFormField(
     controller: controller,
     obscureText: obscureText,
+    style: const TextStyle(color: Colors.white),
     decoration: InputDecoration(
       labelText: labelText,
       hintText: hintText,
@@ -18,9 +19,14 @@ Widget buildTextField({
       hintStyle: const TextStyle(color: Colors.white60),
       prefixIcon: Icon(icon, color: Colors.white),
       border: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.white),
         borderRadius: BorderRadius.circular(10),
       ),
       focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.white),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      enabledBorder: OutlineInputBorder(
         borderSide: const BorderSide(color: Colors.white),
         borderRadius: BorderRadius.circular(10),
       ),

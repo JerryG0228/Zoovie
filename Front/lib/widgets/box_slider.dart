@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:zoovie/models/movie_model.dart';
-import 'package:zoovie/screens/detail_screen.dart';
+import 'package:zoovie/models/media_model.dart';
+import 'package:zoovie/widgets/movie_box.dart';
 
 class BoxSlider extends StatelessWidget {
-  final List<MovieModel> movies;
+  final List<MediaModel> medias;
   final String category;
   const BoxSlider({
     super.key,
-    required this.movies,
+    required this.medias,
     required this.category,
   });
 
@@ -49,42 +49,11 @@ class BoxSlider extends StatelessWidget {
             height: 180,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: makeBoxImages(context, movies),
+              children: medias.map((media) => MovieBox(media: media)).toList(),
             ),
           ),
         ],
       ),
     );
   }
-}
-
-List<Widget> makeBoxImages(BuildContext context, List<MovieModel> movies) {
-  List<Widget> results = [];
-  for (var i = 0; i < movies.length; i++) {
-    results.add(
-      InkWell(
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              fullscreenDialog: true,
-              builder: (BuildContext context) {
-                return DetailScreen(
-                  movie: movies[i],
-                );
-              }));
-        },
-        child: Container(
-          padding: const EdgeInsets.only(right: 20),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Image.asset("lib/assets/images/${movies[i].poster}"),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  return results;
 }

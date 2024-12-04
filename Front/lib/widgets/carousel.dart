@@ -1,18 +1,19 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:zoovie/models/movie_model.dart';
+import 'package:zoovie/models/media_model.dart';
 import 'package:zoovie/screens/detail_screen.dart';
 
 class Carousel extends StatefulWidget {
-  final List<MovieModel> movies;
-  const Carousel({super.key, required this.movies});
+  final List<MediaModel> medias;
+  final String contentType;
+  const Carousel({super.key, required this.medias, required this.contentType});
 
   @override
   State<Carousel> createState() => _CarouselState();
 }
 
 class _CarouselState extends State<Carousel> {
-  late List<MovieModel> movies;
+  late List<MediaModel> medias;
   late List<Widget> images;
   late List<String> keywords;
   late List<bool> bookmarks;
@@ -22,22 +23,42 @@ class _CarouselState extends State<Carousel> {
   @override
   void initState() {
     super.initState();
-    movies = widget.movies;
-    images = movies
-        .map((m) => Image.asset(
-              "lib/assets/images/${m.poster}",
+    medias = widget.medias;
+    images = medias
+        .map((m) => Image.network(
+              m.posterPath,
               fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return const Center(
+                    child: Text('이미지를 불러올 수 없습니다',
+                        style: TextStyle(color: Colors.white)));
+              },
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Center(
+                  child: SizedBox(
+                    width: 115,
+                    height: 115,
+                    child: Transform.scale(
+                      scale: 2.0,
+                      child: const CircularProgressIndicator(
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  ),
+                );
+              },
             ))
         .toList();
-    keywords = movies.map((m) => m.keyword).toList();
-    bookmarks = movies.map((m) => m.bookmark).toList();
+    keywords = medias.map((m) => m.title).toList();
+    bookmarks = medias.map((m) => m.bookmark).toList();
     _currKeyword = keywords[0];
   }
 
   void toggleBookmark() {
     setState(() {
       bookmarks[_currPage] = !bookmarks[_currPage];
-      movies[_currPage].bookmark = bookmarks[_currPage];
+      medias[_currPage].bookmark = bookmarks[_currPage];
     });
   }
 
@@ -51,7 +72,8 @@ class _CarouselState extends State<Carousel> {
         CarouselSlider(
           items: images
               .map((image) => Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
@@ -74,7 +96,7 @@ class _CarouselState extends State<Carousel> {
                   ))
               .toList(),
           options: CarouselOptions(
-            height: 330,
+            height: 360,
             enlargeCenterPage: true,
             enlargeFactor: 0.3,
             viewportFraction: 0.7, // 슬라이더 아이템이 전체 너비를 차지하도록 설정
@@ -159,11 +181,12 @@ class _CarouselState extends State<Carousel> {
             ),
             TextButton(
               onPressed: () {
+                medias[_currPage].mediaType = widget.contentType;
                 Navigator.of(context).push(MaterialPageRoute(
                     fullscreenDialog: true,
                     builder: (BuildContext context) {
                       return DetailScreen(
-                        movie: movies[_currPage],
+                        media: medias[_currPage],
                       );
                     }));
               },

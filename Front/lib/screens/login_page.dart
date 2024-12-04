@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:zoovie/screens/bookmark_page.dart';
 import 'package:zoovie/screens/my_page.dart';
 import 'package:zoovie/widgets/bottom_bar.dart';
 import 'package:zoovie/widgets/loginTextBox.dart';
 import 'package:zoovie/screens/main_page.dart';
 import 'package:zoovie/screens/signup_page.dart';
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
+import '../controllers/user_controller.dart';
+import '../models/user_model.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   bool isFormValid = false;
   final Dio _dio = Dio();
+  final UserController userController = Get.find<UserController>();
 
   @override
   void initState() {
@@ -51,26 +56,58 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if (response.statusCode == 200) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DefaultTabController(
-              length: 4,
-              child: Scaffold(
-                body: TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    const MainPage(),
-                    Container(color: Colors.green),
-                    Container(color: Colors.blue),
-                    const MyPage(),
-                  ],
+        try {
+          print('사용자 정보 요청');
+          final userResponse = await _dio.post(
+            'http://127.0.0.1:5000/user',
+            data: {
+              'email': email,
+            },
+          );
+
+          print('응답 상태 코드: ${userResponse.statusCode}');
+          print('응답 데이터: ${userResponse.data}');
+
+          final userData = userResponse.data;
+          final user = User(
+            username: userData['username'],
+            email: userData['email'],
+            bookmarked: {
+              'movie': List<String>.from(userData['bookmarked']['movie'] ?? []),
+              'tv': List<String>.from(userData['bookmarked']['tv'] ?? [])
+            },
+          );
+
+          userController.setUser(user);
+
+          print('저장된 사용자 정보: ${userController.user}');
+
+          Get.off(() => DefaultTabController(
+                length: 4,
+                child: Scaffold(
+                  body: TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      const MainPage(),
+                      Container(color: Colors.green),
+                      const BookmarkPage(),
+                      const MyPage(),
+                    ],
+                  ),
+                  bottomNavigationBar: const BottomBar(),
                 ),
-                bottomNavigationBar: const BottomBar(),
-              ),
-            ),
-          ),
-        );
+              ));
+        } on DioException catch (e) {
+          print('사용자 정보 조회 오류: ${e.response?.data}');
+          Get.snackbar(
+            '오류',
+            '사용자 정보를 불러오는데 실패했습니다.',
+            duration: const Duration(seconds: 1),
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        }
       }
     } on DioException catch (e) {
       String errorMessage = '로그인에 실패했습니다.';
@@ -78,14 +115,14 @@ class _LoginScreenState extends State<LoginScreen> {
         errorMessage = '이메일 또는 비밀번호가 잘못되었습니다.';
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(errorMessage),
-          backgroundColor: Colors.red,
-          behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.all(16),
-          duration: const Duration(seconds: 2),
-        ),
+      Get.snackbar(
+        '오류',
+        errorMessage,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 2),
       );
     }
   }

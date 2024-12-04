@@ -1,50 +1,47 @@
 import 'package:flutter/material.dart';
 
 class Topbar extends StatelessWidget {
-  const Topbar({super.key});
+  final Function(String) onContentTypeChanged;
+
+  const Topbar({
+    super.key,
+    required this.onContentTypeChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 7, 20, 7),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Image.asset(
             "lib/assets/images/logo.png",
             fit: BoxFit.contain,
             height: 50,
           ),
+          const SizedBox(width: 30),
           TextButton(
-            onPressed: () {},
+            onPressed: () => onContentTypeChanged('movie'),
             child: const Text(
               "영화",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 14,
+                fontSize: 18,
               ),
             ),
           ),
+          const SizedBox(width: 15),
           TextButton(
-            onPressed: () {},
+            onPressed: () => onContentTypeChanged('tv'),
             child: const Text(
-              "TV 프로그램",
+              "시리즈 & TV 프로그램",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 14,
+                fontSize: 18,
               ),
             ),
           ),
-          TextButton(
-            onPressed: () {},
-            child: const Text(
-              "내가 찜한 콘텐츠",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-              ),
-            ),
-          )
         ],
       ),
     );

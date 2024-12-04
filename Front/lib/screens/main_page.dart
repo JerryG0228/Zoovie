@@ -1,7 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:zoovie/models/movie_model.dart';
-import 'package:zoovie/widgets/box_slider.dart';
-import 'package:zoovie/widgets/carousel.dart';
+import 'package:zoovie/models/media_model.dart';
+import '../apis/main_load_data.dart';
+import '../widgets/box_slider.dart';
+import '../widgets/carousel.dart';
 import 'package:zoovie/widgets/top_bar.dart';
 
 class MainPage extends StatefulWidget {
@@ -12,26 +14,52 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  List<MovieModel> movies = [
-    MovieModel.fromJson({
-      "title": "사랑의 불시착",
-      "keyword": "사랑/로맨스/판타지",
-      "poster": "dummyMovie.png",
-      "bookmark": false,
-    }),
-    MovieModel.fromJson({
-      "title": "사랑의 불시착",
-      "keyword": "사랑/로맨스/판타지",
-      "poster": "dummyMovie.png",
-      "bookmark": true,
-    }),
-    MovieModel.fromJson({
-      "title": "사랑의 불시착",
-      "keyword": "사랑/로맨스/판타지",
-      "poster": "dummyMovie.png",
-      "bookmark": false,
-    }),
-  ];
+  late ContentDataLoader contentLoader;
+  final dio = Dio();
+  List<MediaModel> nowPlayingContents = [];
+  List<MediaModel> popularContents = [];
+  List<MediaModel> topRatedContents = [];
+  List<MediaModel> upcomingContents = [];
+  bool isLoading = true;
+  String currentContentType = 'movie';
+
+  @override
+  void initState() {
+    super.initState();
+    contentLoader = ContentDataLoader(
+      dio: dio,
+      onDataLoaded: (nowPlaying, popular, topRated, upcoming) {
+        if (!mounted) return;
+
+        setState(() {
+          nowPlayingContents = nowPlaying;
+          popularContents = popular;
+          topRatedContents = topRated;
+          upcomingContents = upcoming;
+          isLoading = false;
+        });
+      },
+    );
+
+    loadMovieData();
+  }
+
+  Future<void> loadMovieData() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      await contentLoader.loadData(contentType: 'movie');
+    } catch (error) {
+      print("데이터 로드 중 오류 발생: $error");
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,20 +71,44 @@ class _MainPageState extends State<MainPage> {
           colors: [Color(0xff4A8D81), Color(0xff717171)],
         ),
       ),
-      child: ListView(
-        children: [
-          Stack(
-            children: [
-              Carousel(movies: movies),
-              const Topbar(),
-            ],
-          ),
-          BoxSlider(movies: movies, category: "지금 뜨는 콘텐츠"),
-          BoxSlider(movies: movies, category: "상영 예정중인"),
-          BoxSlider(movies: movies, category: "현재 인기있는"),
-          BoxSlider(movies: movies, category: "높은 평가를 받은"),
-        ],
-      ),
+      child: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: Color(0xff00FF99),
+              ),
+            )
+          : ListView(
+              children: [
+                Stack(
+                  children: [
+                    Carousel(
+                        medias: nowPlayingContents.take(5).toList(),
+                        contentType: currentContentType),
+                    Topbar(
+                      onContentTypeChanged: (contentType) async {
+                        setState(() {
+                          currentContentType = contentType;
+                          isLoading = true;
+                        });
+                        await contentLoader.loadData(contentType: contentType);
+                      },
+                    ),
+                  ],
+                ),
+                BoxSlider(
+                    medias: nowPlayingContents.take(10).toList(),
+                    category: "지금 뜨는 콘텐츠"),
+                BoxSlider(
+                    medias: upcomingContents.take(10).toList(),
+                    category: "상영 예정중인"),
+                BoxSlider(
+                    medias: popularContents.take(10).toList(),
+                    category: "인기있는"),
+                BoxSlider(
+                    medias: topRatedContents.take(10).toList(),
+                    category: "높은 평가를 받은"),
+              ],
+            ),
     );
   }
 }
