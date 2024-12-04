@@ -6,10 +6,12 @@ class BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.black,
-      child: Container(
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.9),
+      ),
+      child: const SizedBox(
         height: 95,
-        child: const TabBar(
+        child: TabBar(
           labelColor: Colors.white,
           unselectedLabelColor: Colors.white60,
           indicatorColor: Colors.transparent,

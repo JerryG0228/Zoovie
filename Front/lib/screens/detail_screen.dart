@@ -1,8 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:zoovie/models/media_model.dart';
+import 'package:zoovie/widgets/cast_box.dart';
 import 'package:zoovie/widgets/platform_box.dart';
 import 'package:dio/dio.dart';
+import 'package:zoovie/widgets/stillcut_box.dart';
 
 class DetailScreen extends StatefulWidget {
   final MediaModel media;
@@ -136,6 +138,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                                   null
                                               ? Image.network(
                                                   mediaDetail!['logo_path'],
+                                                  width: 350,
                                                   height: 80,
                                                   fit: BoxFit.contain,
                                                   loadingBuilder: (context,
@@ -189,6 +192,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                         Container(
                                           width: 280,
                                           height: 45,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15),
                                           margin:
                                               const EdgeInsets.only(bottom: 10),
                                           decoration: BoxDecoration(
@@ -207,7 +212,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                                           as List)
                                                       .map((keyword) =>
                                                           keyword['name'])
-                                                      .take(3)
+                                                      .take(4)
                                                       .join(', ')
                                                   : "키워드 없음",
                                               style: const TextStyle(
@@ -255,10 +260,13 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                       ),
                       Positioned(
+                        top: 20,
+                        left: 0,
+                        right: 0,
                         child: AppBar(
                           leading: IconButton(
                             icon: const Icon(
-                              Icons.arrow_back,
+                              Icons.arrow_back_ios_new,
                               size: 30,
                               color: Color(0xff00FF99),
                             ),
@@ -271,6 +279,128 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                       )
                     ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 15, 15, 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: List.generate(
+                            5,
+                            (index) {
+                              final double rating =
+                                  (mediaDetail?['vote_average'] ?? 0) / 2;
+                              if (index < rating.floor()) {
+                                return const Icon(
+                                  Icons.star,
+                                  color: Color(0xff00FF99),
+                                  size: 35,
+                                );
+                              } else if (index == rating.floor() &&
+                                  rating % 1 > 0) {
+                                return const Icon(
+                                  Icons.star_half,
+                                  color: Color(0xff00FF99),
+                                  size: 35,
+                                );
+                              } else {
+                                return const Icon(
+                                  Icons.star_border,
+                                  color: Color(0xff00FF99),
+                                  size: 35,
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                        if (widget.media.mediaType == 'tv')
+                          Text(
+                            "시즌 ${mediaDetail?['seasons'].length ?? 0}개",
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 20,
+                            ),
+                          )
+                        else
+                          Text(
+                            mediaDetail?['runtime'] != null
+                                ? "${(mediaDetail!['runtime'] ~/ 60)}시간 ${mediaDetail!['runtime'] % 60}분"
+                                : "0분",
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 20,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  if (mediaDetail?['stillcuts'] != null &&
+                      mediaDetail!['stillcuts'].isNotEmpty)
+                    StillcutBox(mediaDetail: mediaDetail),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        mediaDetail?['overview'] ?? '추후 줄거리 추가 예정',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                  if (mediaDetail?['cast'] != null &&
+                      mediaDetail!['cast'].isNotEmpty)
+                    Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(15, 20, 15, 5),
+                            child: Text(
+                              "주요 출연진",
+                              style: TextStyle(
+                                color: Color(0xff00FF99),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 150,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: mediaDetail!['cast'].length,
+                              itemBuilder: (context, index) {
+                                final castMember = mediaDetail!['cast'][index];
+                                return CastBox(castMember: castMember);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(15, 20, 15, 0),
+                    child: Text(
+                      "스트리밍 플랫폼",
+                      style: TextStyle(
+                        color: Color(0xff00FF99),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 10),
@@ -297,24 +427,46 @@ class _DetailScreenState extends State<DetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Column(
-                          children: [
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  PlatformBox(
-                                      platforms: mediaDetail?['platforms'] ??
-                                          ["플랫폼1", "플랫폼2", "플랫폼3", "플랫폼4"]),
-                                ],
+                        SizedBox(
+                          height: 120,
+                          child: Column(
+                            children: [
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    if (mediaDetail?['providers'] != null &&
+                                        mediaDetail!['providers'].isNotEmpty)
+                                      ...mediaDetail!['providers']
+                                          .map((provider) {
+                                        return PlatformBox(
+                                          logoPath: provider['logo_path'],
+                                          providerName:
+                                              provider['provider_name'],
+                                        );
+                                      }).toList()
+                                    else
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 20),
+                                        child: const Text(
+                                          '제공 중인 스트리밍 서비스가 없습니다',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             );

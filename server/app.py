@@ -166,5 +166,12 @@ def similar(media, id):
     return jsonify(datas)
 
 
+# 키워드 검색
+@app.route("/keyword/<media>/<id>", methods=["GET"])
+def keyword(media, id):
+    datas = getKeyword(media, id)
+    return jsonify(datas)
+
+
 if __name__ == '__main__':
     app.run()

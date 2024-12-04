@@ -108,13 +108,7 @@ class _CarouselState extends State<Carousel> {
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(0, 10, 0, 3),
-          child: Text(
-            _currKeyword,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          child: const Text(""),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

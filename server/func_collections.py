@@ -39,11 +39,13 @@ def nowPlaying(media, page):
     # 필요한 데이터만 추출
     if media == "movie":
         results = [
-            {"id": result["id"], "poster_path": baseUrl + result["poster_path"], "vote_average": result["vote_average"]}
+            {"id": result["id"], "poster_path": baseUrl + result["poster_path"], "vote_average": result["vote_average"],
+             "title": result["title"]}
             for result in data.get('results', [])]
     elif media == "tv":
         results = [
-            {"id": result["id"], "poster_path": baseUrl + result["poster_path"], "vote_average": result["vote_average"]}
+            {"id": result["id"], "poster_path": baseUrl + result["poster_path"], "vote_average": result["vote_average"],
+             "name": result["name"]}
             for result in data.get('results', [])]
     return results
 
@@ -57,12 +59,13 @@ def popular(media, page):
 
     if media == "movie":
         results = [
-            {"id": result["id"], "poster_path": baseUrl + result["poster_path"], "release_date": result["release_date"]}
+            {"id": result["id"], "poster_path": baseUrl + result["poster_path"], "release_date": result["release_date"],
+             "title": result["title"]}
             for result in data.get('results', [])]
     elif media == "tv":
         results = [
             {"id": result["id"], "poster_path": baseUrl + result["poster_path"],
-             "first_air_date": result["first_air_date"]}
+             "first_air_date": result["first_air_date"], "name": result["name"]}
             for result in data.get('results', [])]
     return results
 
@@ -73,9 +76,17 @@ def topRated(media, page):
 
     response = requests.get(url, headers=headers)
     data = json.loads(response.text)
-    results = [
-        {"id": result["id"], "poster_path": baseUrl + result["poster_path"], "vote_average": result["vote_average"]}
-        for result in data.get('results', [])]
+
+    if media == "movie":
+        results = [
+            {"id": result["id"], "poster_path": baseUrl + result["poster_path"], "vote_average": result["vote_average"],
+             "title": result["title"]}
+            for result in data.get('results', [])]
+    elif media == "tv":
+        results = [
+            {"id": result["id"], "poster_path": baseUrl + result["poster_path"], "vote_average": result["vote_average"],
+             "name": result["name"]}
+            for result in data.get('results', [])]
     return results
 
 
@@ -118,20 +129,23 @@ def getDataById(media, id):
 
     # provider_data에서 results 키가 있는지 확인
     if "results" in provider_data:
-        provider_logo_path = set()
+        providers = set()
         for country_data in provider_data["results"].values():
-            for category in ["buy", "rent"]:
+            for category in ["buy", "rent", "flatrate"]:
                 if category in country_data:
                     for provider in country_data[category]:
-                        provider_logo_path.add(provider["logo_path"])
+                        providers.add((
+                            baseUrl + provider["logo_path"],
+                            provider["provider_name"]
+                        ))
+        providers = [{"logo_path": logo_path, "provider_name": provider_name} for logo_path, provider_name in providers]
     else:
-        # results 키가 없는 경우 빈 플랫폼 리스트 반환
-        platforms = []
+        providers = []
 
     # 필요한 데이터만 추출
     result["stillcuts"] = [{"file_path": backdrop["file_path"]} for backdrop in stillcut_data.get("backdrops", [])[:10]]
     result["poster_path"] = baseUrl + detail_data["poster_path"]
-    result["overview"] = detail_data["overview"]
+    result["overview"] = detail_data["overview"] if detail_data["overview"] else None
     result["vote_average"] = detail_data["vote_average"]
     result["logo_path"] = baseUrl + logo_data["logos"][0]["file_path"] if logo_data["logos"] else None
     if media == "movie":
@@ -143,9 +157,10 @@ def getDataById(media, id):
         result["name"] = detail_data["name"]
         result["seasons"] = detail_data["seasons"]
         result["status"] = detail_data["status"]
-    result["cast"] = [{"name": cast["name"], "character": cast["character"], "profile_path": cast["profile_path"]}
-                      for cast in credit_data["cast"] if cast["profile_path"] is not None]
-    result["providers"] = list(provider_logo_path)
+    result["cast"] = [
+        {"name": cast["name"], "character": cast["character"], "profile_path": baseUrl + cast["profile_path"]}
+        for cast in credit_data["cast"] if cast["profile_path"] is not None]
+    result["providers"] = providers
     result["id"] = id
     result["media_type"] = media
     return result
@@ -172,7 +187,10 @@ def getKeyword(media, id):
     response = requests.get(url, headers=headers)
     data = json.loads(response.text)
 
-    results = [{"id": keyword["id"], "name": keyword["name"]} for keyword in data.get("keywords", [])]
+    if media == "movie":
+        results = [{"id": keyword["id"], "name": keyword["name"]} for keyword in data.get("keywords", [])]
+    else:
+        results = [{"id": keyword["id"], "name": keyword["name"]} for keyword in data.get("results", [])]
     return results
 
 

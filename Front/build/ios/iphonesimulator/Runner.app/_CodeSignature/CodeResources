@@ -46,7 +46,7 @@
 		</data>
 		<key>Frameworks/App.framework/App</key>
 		<data>
-		Emm5NfRARHlElWgxab4vjTspQHw=
+		auHjSlmScgcsNh2FKgaCHecput0=
 		</data>
 		<key>Frameworks/App.framework/Info.plist</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Frameworks/App.framework/_CodeSignature/CodeResources</key>
 		<data>
-		Gqg1CpvTiSmQSfWYGgIngulJnAg=
+		k9t/Ec9tpdC1Kyq7jZF75KUPqnU=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
 		<data>
@@ -70,7 +70,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/NOTICES.Z</key>
 		<data>
-		Jy5pGvDOlNQb60SRc/7bwpi1tR4=
+		ayIt4R2w2qyvny+AkQv2Jej8qNw=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/fonts/MaterialIcons-Regular.otf</key>
 		<data>
@@ -82,7 +82,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/kernel_blob.bin</key>
 		<data>
-		Z+/pxUi/dIsvmJW6jAJywCGZz3E=
+		AnNR5afMWzoCSWL9Ri1gGNr6m1k=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/lib/assets/images/dummyMovie.png</key>
 		<data>
@@ -305,7 +305,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			k8diKjME7SpZQQfDu21npf/Znd4jcyXua52dYPNPz6k=
+			pgRFrCcTByWTtJRJtgk1sK4z6ijKTb5ptEUzNlngnV0=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/Info.plist</key>
@@ -319,7 +319,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			caxWLfIGvllXHjZrYwR3ehXMsuXF38VJ7BCb1FS3SDA=
+			Dkv7Eq1K51qN32gj6SdEW7/tE8X1wytgQZ9zmmVlmNU=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
@@ -347,7 +347,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			rhSWxcB29/OIHIvshIje3/+eBNVjM3bn7Vgn2CXD7HI=
+			J1bL20uhcdz0k6BE4r6A7nLy/cpS6qYnE97EtowuDxE=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/fonts/MaterialIcons-Regular.otf</key>
@@ -368,7 +368,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			3c3xtwNSL3Q6rTUIUgkk6BCwBk2OhB7HKpGGBChNymg=
+			hNS+Fm6MxHSV6hvkucizjl/r3NNmj3fJEEqXFO6hajo=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/lib/assets/images/dummyMovie.png</key>

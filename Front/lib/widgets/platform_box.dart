@@ -1,32 +1,44 @@
 import 'package:flutter/material.dart';
 
 class PlatformBox extends StatelessWidget {
-  final List<String> platforms;
+  final String logoPath;
+  final String providerName;
 
   const PlatformBox({
     super.key,
-    required this.platforms,
+    required this.logoPath,
+    required this.providerName,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      alignment: WrapAlignment.center,
-      spacing: 15,
-      runSpacing: 15,
-      children: platforms.map((platform) {
-        return Container(
-          width: 80,
-          height: 80,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(10),
+    return SizedBox(
+      width: 100,
+      height: 110,
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Image.network(
+              logoPath,
+              height: 60,
+              fit: BoxFit.contain,
+            ),
           ),
-          child: Center(
-            child: Text(platform),
+          const SizedBox(height: 4),
+          Text(
+            providerName,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+            ),
+            textAlign: TextAlign.center,
+            softWrap: true,
+            overflow: TextOverflow.visible,
           ),
-        );
-      }).toList(),
+          const SizedBox(height: 6),
+        ],
+      ),
     );
   }
 }

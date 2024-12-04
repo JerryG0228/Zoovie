@@ -97,16 +97,20 @@ class _MainPageState extends State<MainPage> {
                 ),
                 BoxSlider(
                     medias: nowPlayingContents.take(10).toList(),
-                    category: "지금 뜨는 콘텐츠"),
+                    category: "지금 뜨는 콘텐츠",
+                    contentType: currentContentType),
                 BoxSlider(
                     medias: upcomingContents.take(10).toList(),
-                    category: "상영 예정중인"),
+                    category: "상영 예정중인",
+                    contentType: currentContentType),
                 BoxSlider(
                     medias: popularContents.take(10).toList(),
-                    category: "인기있는"),
+                    category: "인기있는",
+                    contentType: currentContentType),
                 BoxSlider(
                     medias: topRatedContents.take(10).toList(),
-                    category: "높은 평가를 받은"),
+                    category: "높은 평가를 받은",
+                    contentType: currentContentType),
               ],
             ),
     );

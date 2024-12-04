@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:zoovie/models/media_model.dart';
+import 'package:zoovie/screens/more_page.dart';
 import 'package:zoovie/widgets/movie_box.dart';
 
 class BoxSlider extends StatelessWidget {
   final List<MediaModel> medias;
   final String category;
+  final String contentType;
+
   const BoxSlider({
     super.key,
     required this.medias,
     required this.category,
+    required this.contentType,
   });
 
   @override
@@ -18,38 +23,53 @@ class BoxSlider extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            category,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-              color: Color(0xff00FF99),
-              shadows: [
-                // 안쪽 그림자
-                Shadow(
-                  color: Color.fromARGB(137, 0, 255, 153),
-                  blurRadius: 5,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                category,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
-                // 바깥쪽 그림자
-                Shadow(
-                  color: Color.fromARGB(83, 0, 255, 153),
-                  blurRadius: 10,
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MorePage(
+                        category: category,
+                        contentType: contentType,
+                      ),
+                    ),
+                  );
+                },
+                child: const Text(
+                  '더보기',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xff00FF99),
+                  ),
                 ),
-                // 더 넓은 그림자
-                Shadow(
-                  color: Color.fromARGB(40, 0, 255, 153),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
           const SizedBox(
             height: 10,
           ),
           SizedBox(
             height: 180,
-            child: ListView(
+            child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              children: medias.map((media) => MovieBox(media: media)).toList(),
+              separatorBuilder: (context, index) => const SizedBox(width: 10),
+              itemCount: medias.length,
+              itemBuilder: (context, index) => MovieBox(
+                media: medias[index],
+                contentType: contentType,
+              ),
             ),
           ),
         ],
