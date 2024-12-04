@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 import requests
 import json
+from datetime import datetime
 
 # .env 파일 로드
 load_dotenv()
@@ -16,6 +17,11 @@ headers = {
     "accept": "application/json",
     "Authorization": f"Bearer {token}"
 }
+
+# 현재 날짜 (api 요청시 사용)
+current_date = datetime.now().strftime("%Y-%m-%d")
+decade_date = (datetime.now().replace(year=datetime.now().year - 10)).strftime("%Y-%m-%d")
+double_month_date = (datetime.now().replace(year=datetime.now().month + 2)).strftime("%Y-%m-%d")
 
 
 # 현재 상영중인 영화 또는 방영중인 TV 프로그램 데이터
@@ -44,7 +50,7 @@ def nowPlaying(media, page):
 
 # 인기 있는 영화 또는 TV 프로그램 데이터
 def popular(media, page):
-    url = f"https://api.themoviedb.org/3/{media}/popular?language=ko-KR&page={page}"
+    url = f"https://api.themoviedb.org/3/discover/{media}?page={page}&include_adult=false&include_video=false&language=ko-KR&sort_by=popularity.desc&primary_release_date.gte={decade_date}&primary_release_date.lte={current_date}"
 
     response = requests.get(url, headers=headers)
     data = json.loads(response.text)
@@ -76,9 +82,9 @@ def topRated(media, page):
 # 개봉 예정 영화 또는 방영 예정 TV 프로그램 데이터
 def upcoming(media, page):
     if media == "movie":
-        url = f"https://api.themoviedb.org/3/movie/upcoming?language=ko-KR&page={page}"
+        url = f"https://api.themoviedb.org/3/discover/movie?page={page}&language=ko-KR&sort_by=popularity.desc&primary_release_date.gte={current_date}&primary_release_date.lte={double_month_date}"
     elif media == "tv":
-        url = f"https://api.themoviedb.org/3/tv/on_the_air?language=ko-KR&page={page}"
+        url = f"https://api.themoviedb.org/3/discover/tv?page={page}&language=ko-KR&sort_by=popularity.desc&first_air_date.gte={current_date}&first_air_date.lte={double_month_date}"
     else:
         return []
 
@@ -101,6 +107,7 @@ def getDataById(media, id):
     detail_response = requests.get(detail_url, headers=headers)
     credit_response = requests.get(credit_url, headers=headers)
     provider_response = requests.get(provider_url, headers=headers)
+
     stillcut_data = json.loads(stillcut_response.text)
     detail_data = json.loads(detail_response.text)
     credit_data = json.loads(credit_response.text)
@@ -115,15 +122,17 @@ def getDataById(media, id):
                     provider_logo_path.add(provider["logo_path"])
 
     # 필요한 데이터만 추출
-    result["stillcuts"] = [{"file_path": stillcut_data["backdrops"][i]["file_path"]} for i in range(10)]
+    result["stillcuts"] = [{"file_path": backdrop["file_path"]} for backdrop in stillcut_data.get("backdrops", [])[:10]]
     result["poster_path"] = baseUrl + detail_data["poster_path"]
     result["overview"] = detail_data["overview"]
     result["vote_average"] = detail_data["vote_average"]
     if media == "movie":
+        result["title"] = detail_data["title"]
         result["budget"] = detail_data["budget"]
         result["revenue"] = detail_data["revenue"]
         result["runtime"] = detail_data["runtime"]
     elif media == "tv":
+        result["name"] = detail_data["name"]
         result["seasons"] = detail_data["seasons"]
         result["status"] = detail_data["status"]
     result["cast"] = [{"name": cast["name"], "character": cast["character"], "profile_path": cast["profile_path"]}
@@ -143,4 +152,25 @@ def getDatabyKeyword(keyword, page):
         "total_pages": data["total_pages"],
         "results": [{"id": item["id"], "poster_path": baseUrl + item["poster_path"]} for item in data["results"]]
     }
+    return results
+
+
+# 키워드 검색
+def getKeyword(media, id):
+    url = f"https://api.themoviedb.org/3/{media}/{id}/keywords"
+
+    response = requests.get(url, headers=headers)
+    data = json.loads(response.text)
+
+    results = [{"id": keyword["id"], "name": keyword["name"]} for keyword in data.get("keywords", [])]
+    return results
+
+
+# 비슷한 영화 or TV 프로그램 데이터
+def getSimilar(media, id):
+    url = f"https://api.themoviedb.org/3/{media}/{id}/similar?language=ko-KR&page=1"
+
+    response = requests.get(url, headers=headers)
+    results = json.loads(response.text)
+
     return results

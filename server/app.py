@@ -23,7 +23,10 @@ def signup():
         "username": data["username"],
         "password": hashed_password,
         "email": data["email"],
-        "bookmarked": []
+        "bookmarked": {
+            "movie": [],
+            "tv": []
+        }
     }
     users_collection.insert_one(new_user)
     return jsonify({"message": "Success signup"}), 201
@@ -40,9 +43,29 @@ def login():
     return jsonify({"message": "Successful login"}), 200
 
 
+# 유저 정보 불러오기
+@app.route("/user", methods=["POST"])
+def getUserByEmail():
+    data = request.json
+    email = data.get("email")
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
+
+    user = users_collection.find_one({"email": email})
+    if not user:
+        return jsonify({"error": "User does not exist"}), 404
+
+    user_info = {
+        "username": user["username"],
+        "email": user["email"],
+        "bookmarked": user.get("bookmarked", {"movie": [], "tv": []})
+    }
+    return jsonify(user_info), 200
+
+
 # 북마크
-@app.route("/bookmark", methods=["POST"])
-def bookmark():
+@app.route("/<media>/bookmark", methods=["POST"])
+def bookmark(media):
     data = request.json
     username = data["username"]
     item_id = data["item_id"]
@@ -51,34 +74,40 @@ def bookmark():
     if not user:
         return jsonify({"error": "User does not exist"}), 404
 
+    if media not in ["movie", "tv"]:
+        return jsonify({"error": "Invalid media type"}), 400
+
     users_collection.update_one(
         {"username": username},
-        {"$addToSet": {"bookmark": item_id}}
+        {"$addToSet": {f"bookmarked.{media}": item_id}}
     )
-    return jsonify({"message": "Success add ID(bookmarks)"}), 200
+    return jsonify({"message": f"Success add ID to {media} bookmarks"}), 200
 
 
 # 북마크 취소
-@app.route("/cancelBookmark", methods=["POST"])
-def cancelBookmark():
+@app.route("/<media>/cancelBookmark", methods=["POST"])
+def cancelBookmark(media):
     data = request.json
     username = data["username"]
     item_id = data["item_id"]
 
+    if media not in ["movie", "tv"]:
+        return jsonify({"error": "Invalid media type"}), 400
+
     result = users_collection.update_one(
         {"username": username},
-        {"$pull": {"bookmark": item_id}},
+        {"$pull": {f"bookmarked.{media}": item_id}},
         upsert=False
     )
     if result.modified_count == 0:
-        return jsonify({"error": "Item ID not found in bookmarks"}), 404
-    return jsonify({"message": "Success remove ID(bookmarks)"}), 200
+        return jsonify({"error": f"Item ID not found in {media} bookmarks"}), 404
+    return jsonify({"message": f"Success remove ID from {media} bookmarks"}), 200
 
 
 # 화면에서 영화 데이터 모두 불러오기
 # media: movie, tv
-@app.route("/<media>/loadmvdatas", methods=["GET"])
-def loadMvDatas(media):
+@app.route("/<media>/loaddatas", methods=["GET"])
+def loadDatas(media):
     datas = {}
     datas["nowPlaying"] = nowPlaying(media, page=1)
     datas["popular"] = popular(media, page=1)
@@ -91,6 +120,7 @@ def loadMvDatas(media):
 @app.route("/getdatabyid/<media>/<int:id>", methods=["GET"])
 def getDataByIdRoute(media, id):
     datas = getDataById(media, id)
+    datas["keywords"] = getKeyword(media, id)
     return jsonify(datas)
 
 
@@ -126,6 +156,13 @@ def moreUpcoming(media, page):
 @app.route("/search/<keyword>/<int:page>", methods=["GET"])
 def search(keyword, page):
     datas = getDatabyKeyword(keyword, page)
+    return jsonify(datas)
+
+
+# 검색 키워드를 통해 영화, TV 프로그램 데이터 불러오기
+@app.route("/similar/<media>/<id>", methods=["GET"])
+def similar(media, id):
+    datas = getSimilar(media, id)
     return jsonify(datas)
 
 
