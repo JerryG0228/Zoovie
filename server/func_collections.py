@@ -102,30 +102,38 @@ def getDataById(media, id):
     detail_url = f"https://api.themoviedb.org/3/{media}/{id}?language=ko-KR"
     credit_url = f"https://api.themoviedb.org/3/{media}/{id}/credits?language=ko-KR"
     provider_url = f"https://api.themoviedb.org/3/{media}/{id}/watch/providers"
+    logo_url = f"https://api.themoviedb.org/3/{media}/{id}/images?language=en"
 
     stillcut_response = requests.get(stillcut_url, headers=headers)
     detail_response = requests.get(detail_url, headers=headers)
     credit_response = requests.get(credit_url, headers=headers)
     provider_response = requests.get(provider_url, headers=headers)
+    logo_response = requests.get(logo_url, headers=headers)
 
     stillcut_data = json.loads(stillcut_response.text)
     detail_data = json.loads(detail_response.text)
     credit_data = json.loads(credit_response.text)
     provider_data = json.loads(provider_response.text)
+    logo_data = json.loads(logo_response.text)
 
-    # provider 로고 이미지 경로 수집
-    provider_logo_path = set()
-    for country_data in provider_data["results"].values():
-        for category in ["buy", "rent"]:
-            if category in country_data:
-                for provider in country_data[category]:
-                    provider_logo_path.add(provider["logo_path"])
+    # provider_data에서 results 키가 있는지 확인
+    if "results" in provider_data:
+        provider_logo_path = set()
+        for country_data in provider_data["results"].values():
+            for category in ["buy", "rent"]:
+                if category in country_data:
+                    for provider in country_data[category]:
+                        provider_logo_path.add(provider["logo_path"])
+    else:
+        # results 키가 없는 경우 빈 플랫폼 리스트 반환
+        platforms = []
 
     # 필요한 데이터만 추출
     result["stillcuts"] = [{"file_path": backdrop["file_path"]} for backdrop in stillcut_data.get("backdrops", [])[:10]]
     result["poster_path"] = baseUrl + detail_data["poster_path"]
     result["overview"] = detail_data["overview"]
     result["vote_average"] = detail_data["vote_average"]
+    result["logo_path"] = baseUrl + logo_data["logos"][0]["file_path"] if logo_data["logos"] else None
     if media == "movie":
         result["title"] = detail_data["title"]
         result["budget"] = detail_data["budget"]
@@ -138,6 +146,8 @@ def getDataById(media, id):
     result["cast"] = [{"name": cast["name"], "character": cast["character"], "profile_path": cast["profile_path"]}
                       for cast in credit_data["cast"] if cast["profile_path"] is not None]
     result["providers"] = list(provider_logo_path)
+    result["id"] = id
+    result["media_type"] = media
     return result
 
 
