@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:zoovie/models/media_model.dart';
 import 'package:zoovie/screens/more_page.dart';
 import 'package:zoovie/widgets/main_widgets/movie_box.dart';

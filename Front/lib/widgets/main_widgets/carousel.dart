@@ -1,7 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:zoovie/controllers/user_controller.dart';
 import 'package:zoovie/models/media_model.dart';
 import 'package:zoovie/screens/detail_screen.dart';
+import 'package:dio/dio.dart';
+import 'package:get/get.dart';
+import 'package:zoovie/widgets/bookmark_btn.dart';
 
 class Carousel extends StatefulWidget {
   final List<MediaModel> medias;
@@ -50,14 +54,47 @@ class _CarouselState extends State<Carousel> {
             ))
         .toList();
     keywords = medias.map((m) => m.title).toList();
-    bookmarks = medias.map((m) => m.bookmark).toList();
+    for (var media in medias) {
+      media.mediaType = widget.contentType;
+    }
+    bookmarks = medias
+        .map((m) =>
+            Get.find<UserController>()
+                .user
+                ?.bookmarked[widget.contentType]
+                ?.contains(m.id.toString()) ??
+            false)
+        .toList();
   }
 
-  void toggleBookmark() {
-    setState(() {
-      bookmarks[_currPage] = !bookmarks[_currPage];
-      medias[_currPage].bookmark = bookmarks[_currPage];
-    });
+  void toggleBookmark() async {
+    final mediaId = medias[_currPage].id;
+    final username = Get.find<UserController>().user?.username;
+
+    final url = bookmarks[_currPage]
+        ? 'http://127.0.0.1:5000/${medias[_currPage].mediaType}/cancelBookmark'
+        : 'http://127.0.0.1:5000/${medias[_currPage].mediaType}/bookmark';
+
+    try {
+      final response = await Dio().post(
+        url,
+        data: {
+          'username': username,
+          'item_id': mediaId.toString(),
+        },
+      );
+
+      if (response.statusCode == 200) {
+        setState(() {
+          bookmarks[_currPage] = !bookmarks[_currPage];
+          medias[_currPage].bookmark = bookmarks[_currPage];
+          Get.find<UserController>()
+              .toggleBookmark(mediaId.toString(), medias[_currPage].mediaType);
+        });
+      }
+    } catch (e) {
+      printError();
+    }
   }
 
   @override
@@ -113,26 +150,20 @@ class _CarouselState extends State<Carousel> {
             TextButton(
               onPressed: toggleBookmark,
               style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 15),
+                padding: const EdgeInsets.symmetric(vertical: 10),
               ),
               child: Column(
                 children: [
-                  bookmarks[_currPage]
-                      ? const Icon(
-                          Icons.bookmark,
-                          color: Colors.white,
-                        )
-                      : const Icon(
-                          Icons.bookmark_border,
-                          color: Colors.white,
-                        ),
+                  Icon(
+                    bookmarks[_currPage]
+                        ? Icons.bookmark_rounded
+                        : Icons.bookmark_outline_rounded,
+                    color: Colors.white,
+                  ),
                   const SizedBox(height: 5),
                   const Text(
-                    "내가 찜한 콘텐츠",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
-                    ),
+                    "북마크",
+                    style: TextStyle(color: Colors.white),
                   ),
                 ],
               ),

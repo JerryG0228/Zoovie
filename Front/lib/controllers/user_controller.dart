@@ -12,4 +12,12 @@ class UserController extends GetxController {
   void clearUser() {
     _user.value = null;
   }
+
+  void toggleBookmark(String mediaId, String mediaType) {
+    if (_user.value?.bookmarked[mediaType]?.contains(mediaId) ?? false) {
+      _user.value?.bookmarked[mediaType]?.remove(mediaId);
+    } else {
+      _user.value?.bookmarked[mediaType]?.add(mediaId);
+    }
+  }
 }

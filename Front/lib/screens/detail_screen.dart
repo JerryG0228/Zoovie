@@ -5,6 +5,9 @@ import 'package:zoovie/widgets/detail_widgets/cast_box.dart';
 import 'package:zoovie/widgets/detail_widgets/platform_box.dart';
 import 'package:dio/dio.dart';
 import 'package:zoovie/widgets/detail_widgets/stillcut_box.dart';
+import 'package:zoovie/widgets/bookmark_btn.dart';
+import 'package:get/get.dart';
+import 'package:zoovie/controllers/user_controller.dart';
 
 class DetailScreen extends StatefulWidget {
   final MediaModel media;
@@ -31,10 +34,44 @@ class _DetailScreenState extends State<DetailScreen> {
     }
   }
 
+  void toggleBookmark() async {
+    final mediaId = widget.media.id;
+    final username = Get.find<UserController>().user?.username;
+
+    final url = bookmark
+        ? 'http://127.0.0.1:5000/${widget.media.mediaType}/cancelBookmark'
+        : 'http://127.0.0.1:5000/${widget.media.mediaType}/bookmark';
+
+    try {
+      final response = await dio.post(
+        url,
+        data: {
+          'username': username,
+          'item_id': mediaId.toString(),
+        },
+      );
+
+      if (response.statusCode == 200) {
+        bookmark = !bookmark;
+        widget.media.bookmark = bookmark;
+        Get.find<UserController>()
+            .toggleBookmark(mediaId.toString(), widget.media.mediaType);
+        setState(() {});
+      }
+    } catch (e) {
+      print('Error toggling bookmark: $e');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    bookmark = widget.media.bookmark;
+    bookmark = widget.media.bookmark ||
+        (Get.find<UserController>()
+                .user
+                ?.bookmarked[widget.media.mediaType]
+                ?.contains(widget.media.id.toString()) ??
+            false);
     movieId = widget.media.id;
   }
 
@@ -154,29 +191,37 @@ class _DetailScreenState extends State<DetailScreen> {
                                                     );
                                                   },
                                                 )
-                                              : Column(
-                                                  children: [
-                                                    const SizedBox(height: 30),
-                                                    Text(
-                                                      mediaDetail != null
-                                                          ? (widget.media
-                                                                      .mediaType ==
-                                                                  'movie'
-                                                              ? mediaDetail![
-                                                                      'title'] ??
-                                                                  '제목 없음'
-                                                              : mediaDetail![
-                                                                      'name'] ??
-                                                                  '이름 없음')
-                                                          : '정보 없음',
-                                                      style: const TextStyle(
-                                                        fontSize: 30,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.white,
+                                              : Container(
+                                                  width: 350,
+                                                  height: 120,
+                                                  child: Column(
+                                                    children: [
+                                                      Text(
+                                                        mediaDetail != null
+                                                            ? (widget.media
+                                                                        .mediaType ==
+                                                                    'movie'
+                                                                ? mediaDetail![
+                                                                        'title'] ??
+                                                                    '제목 없음'
+                                                                : mediaDetail![
+                                                                        'name'] ??
+                                                                    '이름 없음')
+                                                            : '정보 없음',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        maxLines: 2,
+                                                        style: const TextStyle(
+                                                          fontSize: 30,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white,
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
                                         ),
                                       ],
@@ -235,19 +280,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                           ),
-                                          child: IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                bookmark = !bookmark;
-                                              });
+                                          child: ToggleBookmarkButton(
+                                            isBookmarked: bookmark,
+                                            onToggle: () {
+                                              toggleBookmark();
                                             },
-                                            icon: Icon(
-                                              bookmark
-                                                  ? Icons.bookmark
-                                                  : Icons.bookmark_outline,
-                                              color: Colors.white,
-                                              size: 30,
-                                            ),
                                           ),
                                         ),
                                       ],
