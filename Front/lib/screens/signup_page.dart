@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zoovie/screens/login_page.dart';
-import 'package:zoovie/widgets/signup_text_field.dart';
+import 'package:zoovie/widgets/user_widgets/signup_text_field.dart';
 import 'package:dio/dio.dart';
 
 class SignupPage extends StatefulWidget {

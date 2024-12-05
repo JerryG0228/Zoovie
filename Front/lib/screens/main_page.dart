@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:zoovie/models/media_model.dart';
 import '../apis/main_load_data.dart';
-import '../widgets/box_slider.dart';
-import '../widgets/carousel.dart';
+import '../widgets/main_widgets/box_slider.dart';
+import '../widgets/main_widgets/carousel.dart';
 import 'package:zoovie/widgets/top_bar.dart';
 
 class MainPage extends StatefulWidget {

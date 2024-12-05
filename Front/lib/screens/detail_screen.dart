@@ -1,10 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:zoovie/models/media_model.dart';
-import 'package:zoovie/widgets/cast_box.dart';
-import 'package:zoovie/widgets/platform_box.dart';
+import 'package:zoovie/widgets/detail_widgets/cast_box.dart';
+import 'package:zoovie/widgets/detail_widgets/platform_box.dart';
 import 'package:dio/dio.dart';
-import 'package:zoovie/widgets/stillcut_box.dart';
+import 'package:zoovie/widgets/detail_widgets/stillcut_box.dart';
 
 class DetailScreen extends StatefulWidget {
   final MediaModel media;
@@ -378,7 +378,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             ),
                           ),
                           SizedBox(
-                            height: 150,
+                            height: 250,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: mediaDetail!['cast'].length,

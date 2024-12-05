@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zoovie/models/media_model.dart';
-import 'package:zoovie/widgets/movie_box.dart';
+import 'package:zoovie/widgets/main_widgets/movie_box.dart';
 import 'package:dio/dio.dart';
 
 class MorePage extends StatefulWidget {

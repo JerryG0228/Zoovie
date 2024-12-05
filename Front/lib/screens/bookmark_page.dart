@@ -12,7 +12,6 @@ class BookmarkPage extends GetView<UserController> {
     try {
       final response =
           await Dio().get('http://127.0.0.1:5000/getdatabyid/$media/$id');
-      print(response.data);
       return response.data;
     } catch (e) {
       throw Exception('Failed to load media data: $e');
