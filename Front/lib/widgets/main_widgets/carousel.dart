@@ -152,21 +152,7 @@ class _CarouselState extends State<Carousel> {
               style: TextButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 10),
               ),
-              child: Column(
-                children: [
-                  Icon(
-                    bookmarks[_currPage]
-                        ? Icons.bookmark_rounded
-                        : Icons.bookmark_outline_rounded,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(height: 5),
-                  const Text(
-                    "북마크",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
+              child: BookmarkButton(isBookmarked: bookmarks[_currPage]),
             ),
             Container(
               padding: const EdgeInsets.only(right: 10),
@@ -261,4 +247,31 @@ List<Widget> makeIndicator(List list, int _currPage) {
   }
 
   return results;
+}
+
+class BookmarkButton extends StatelessWidget {
+  final bool isBookmarked;
+
+  const BookmarkButton({Key? key, required this.isBookmarked})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Icon(
+          isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+          color: Colors.white,
+        ),
+        const SizedBox(height: 5),
+        Text(
+          isBookmarked ? "북마크 해제" : "북마크",
+          style: const TextStyle(
+            fontSize: 11,
+            color: Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
 }

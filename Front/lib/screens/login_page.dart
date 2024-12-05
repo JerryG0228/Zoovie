@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zoovie/screens/bookmark_page.dart';
 import 'package:zoovie/screens/my_page.dart';
+import 'package:zoovie/screens/search_page.dart';
 import 'package:zoovie/widgets/bottom_bar.dart';
 import 'package:zoovie/widgets/user_widgets/loginTextBox.dart';
 import 'package:zoovie/screens/main_page.dart';
@@ -82,19 +83,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
           print('저장된 사용자 정보: ${userController.user}');
 
-          Get.off(() => DefaultTabController(
+          Get.off(() => const DefaultTabController(
                 length: 4,
                 child: Scaffold(
                   body: TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: NeverScrollableScrollPhysics(),
                     children: [
-                      const MainPage(),
-                      Container(color: Colors.green),
-                      const BookmarkPage(),
-                      const MyPage(),
+                      MainPage(),
+                      SearchPage(),
+                      BookmarkPage(),
+                      MyPage(),
                     ],
                   ),
-                  bottomNavigationBar: const BottomBar(),
+                  bottomNavigationBar: BottomBar(),
                 ),
               ));
         } on DioException catch (e) {

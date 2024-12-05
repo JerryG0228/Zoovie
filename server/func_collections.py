@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import requests
 import json
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 # .env 파일 로드
 load_dotenv()
@@ -21,7 +22,7 @@ headers = {
 # 현재 날짜 (api 요청시 사용)
 current_date = datetime.now().strftime("%Y-%m-%d")
 decade_date = (datetime.now().replace(year=datetime.now().year - 10)).strftime("%Y-%m-%d")
-double_month_date = (datetime.now().replace(year=datetime.now().month + 2)).strftime("%Y-%m-%d")
+double_month_date = (datetime.now() + relativedelta(months=2)).strftime("%Y-%m-%d")
 
 
 # 현재 상영중인 영화 또는 방영중인 TV 프로그램 데이터
@@ -96,14 +97,13 @@ def upcoming(media, page):
         url = f"https://api.themoviedb.org/3/discover/movie?page={page}&language=ko-KR&sort_by=popularity.desc&primary_release_date.gte={current_date}&primary_release_date.lte={double_month_date}"
     elif media == "tv":
         url = f"https://api.themoviedb.org/3/discover/tv?page={page}&language=ko-KR&sort_by=popularity.desc&first_air_date.gte={current_date}&first_air_date.lte={double_month_date}"
-    else:
-        return []
 
     response = requests.get(url, headers=headers)
     data = json.loads(response.text)
     results = [
         {"id": result["id"], "poster_path": baseUrl + result["poster_path"], "vote_average": result["vote_average"],
-         "vote_count": result["vote_count"]} for result in data.get('results', [])]
+         "vote_count": result["vote_count"]}
+        for result in data.get('results', []) if result["poster_path"] is not None]
     return results
 
 
@@ -172,10 +172,19 @@ def getDatabyKeyword(keyword, page):
 
     response = requests.get(url, headers=headers)
     data = json.loads(response.text)
+
     results = {
         "page": data["page"],
         "total_pages": data["total_pages"],
-        "results": [{"id": item["id"], "poster_path": baseUrl + item["poster_path"]} for item in data["results"]]
+        "results": [
+            {
+                "id": item["id"],
+                "poster_path": baseUrl + item.get("poster_path", ""),
+                "media_type": item.get("media_type")
+            }
+            for item in data["results"]
+            if item.get("poster_path") is not None
+        ]
     }
     return results
 

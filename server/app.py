@@ -159,7 +159,7 @@ def search(keyword, page):
     return jsonify(datas)
 
 
-# 검색 키워드를 통해 영화, TV 프로그램 데이터 불러오기
+# 비슷한 영화, TV 프로그램 데이터 불러오기
 @app.route("/similar/<media>/<id>", methods=["GET"])
 def similar(media, id):
     datas = getSimilar(media, id)

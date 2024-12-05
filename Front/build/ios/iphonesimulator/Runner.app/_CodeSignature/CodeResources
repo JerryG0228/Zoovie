@@ -46,7 +46,7 @@
 		</data>
 		<key>Frameworks/App.framework/App</key>
 		<data>
-		OEXpVnUy68IimZy2Hb5I56vyYOs=
+		nHSikmm8jLDsnxnd5r0NyEsIM+U=
 		</data>
 		<key>Frameworks/App.framework/Info.plist</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Frameworks/App.framework/_CodeSignature/CodeResources</key>
 		<data>
-		fEaJUwwx7nWmBI57ZYZKYdvDX24=
+		cXoMxnUdiNICvnqtIZ8Pw9az6Sg=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
 		<data>
@@ -82,7 +82,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/kernel_blob.bin</key>
 		<data>
-		mWcmX0IHrMSsRBAOyWOekt5arpY=
+		TAPk8SK+/CLVenbny6adU68khaI=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/lib/assets/images/dummyMovie.png</key>
 		<data>
@@ -305,7 +305,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			VOxh931Xk6wjB9zz90W5rK5uqYX/lCZIPTh9hSC6WNY=
+			z39pdh35ahD9t6KHJpoD93H4hmBzBhiRrqbegIxM0RM=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/Info.plist</key>
@@ -319,7 +319,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			vYiVm6tg/5KicrzjF9pUTkktz/2FYsYRF2XlXW43YOo=
+			GOC/Zd0R10etqoZdak80ZA3N5xajfevpjB+nmFDOfBY=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
@@ -368,7 +368,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			P44GQEWDkf64SMEBbjuC5k9d8KGf0bCgUHVN1foAixA=
+			+FpoIvEzyQ17wmfERm7LoYFByxlgvMcwfH8J4auHiPM=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/lib/assets/images/dummyMovie.png</key>
