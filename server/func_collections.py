@@ -204,10 +204,18 @@ def getKeyword(media, id):
 
 
 # 비슷한 영화 or TV 프로그램 데이터
-def getSimilar(media, id):
-    url = f"https://api.themoviedb.org/3/{media}/{id}/similar?language=ko-KR&page=1"
+def getSimilar(media, id, page):
+    url = f"https://api.themoviedb.org/3/{media}/{id}/similar?language=ko-KR&page={page}"
 
     response = requests.get(url, headers=headers)
-    results = json.loads(response.text)
+    data = json.loads(response.text)
+
+    results = [
+        {"id": result["id"], "poster_path": baseUrl + result["poster_path"],
+         "name": result["title"] if "title" in result else result["name"],
+         "vote_average": result["vote_average"],
+         "vote_count": result["vote_count"]}
+        for result in data.get('results', []) if result["poster_path"] is not None
+    ]
 
     return results

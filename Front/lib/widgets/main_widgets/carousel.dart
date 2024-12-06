@@ -5,7 +5,7 @@ import 'package:zoovie/models/media_model.dart';
 import 'package:zoovie/screens/detail_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:zoovie/widgets/bookmark_btn.dart';
+import 'package:zoovie/widgets/bookmark_widgets/bookmark_btn.dart';
 
 class Carousel extends StatefulWidget {
   final List<MediaModel> medias;

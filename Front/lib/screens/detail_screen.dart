@@ -1,13 +1,16 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:zoovie/models/media_model.dart';
-import 'package:zoovie/widgets/detail_widgets/cast_box.dart';
-import 'package:zoovie/widgets/detail_widgets/platform_box.dart';
+import 'package:zoovie/widgets/detail_widgets/cast/cast_container.dart';
+import 'package:zoovie/widgets/detail_widgets/detail_poster.dart';
 import 'package:dio/dio.dart';
+import 'package:zoovie/widgets/detail_widgets/detail_top.dart';
+import 'package:zoovie/widgets/detail_widgets/overview.dart';
+import 'package:zoovie/widgets/detail_widgets/platform/platform_container.dart';
 import 'package:zoovie/widgets/detail_widgets/stillcut_box.dart';
-import 'package:zoovie/widgets/bookmark_btn.dart';
 import 'package:get/get.dart';
 import 'package:zoovie/controllers/user_controller.dart';
+import 'package:zoovie/widgets/detail_widgets/similar_box_slider.dart';
 
 class DetailScreen extends StatefulWidget {
   final MediaModel media;
@@ -22,6 +25,7 @@ class _DetailScreenState extends State<DetailScreen> {
   late int movieId;
   Map<String, dynamic>? mediaDetail;
   final dio = Dio();
+  List<MediaModel> similarMedias = [];
 
   Future<Map<String, dynamic>?> fetchmediaDetail() async {
     try {
@@ -31,6 +35,20 @@ class _DetailScreenState extends State<DetailScreen> {
     } catch (e) {
       print('Error fetching media detail: $e');
       return null;
+    }
+  }
+
+  Future<void> fetchSimilarMedias() async {
+    try {
+      final response = await dio.get(
+          'http://127.0.0.1:5000/similar/${widget.media.mediaType}/${widget.media.id}/1');
+      if (response.statusCode == 200) {
+        similarMedias = (response.data as List)
+            .map((media) => MediaModel.fromJson(media))
+            .toList();
+      }
+    } catch (e) {
+      print('Error fetching similar medias: $e');
     }
   }
 
@@ -73,6 +91,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 ?.contains(widget.media.id.toString()) ??
             false);
     movieId = widget.media.id;
+    fetchSimilarMedias();
   }
 
   @override
@@ -132,302 +151,67 @@ class _DetailScreenState extends State<DetailScreen> {
                             : null,
                         child: ClipRect(
                           child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
                             child: Container(
                               alignment: Alignment.center,
-                              color: Colors.black.withOpacity(0.1),
-                              child: Column(
-                                children: [
-                                  const SizedBox(height: 45),
-                                  Container(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 45, 0, 10),
-                                    height: 300,
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      clipBehavior: Clip.none,
-                                      children: [
-                                        mediaDetail?['poster_path'] != null
-                                            ? Image.network(
-                                                mediaDetail!['poster_path'],
-                                                fit: BoxFit.contain,
-                                                loadingBuilder: (context, child,
-                                                    loadingProgress) {
-                                                  if (loadingProgress == null)
-                                                    return child;
-                                                  return const Center(
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      color: Color(0xff00FF99),
-                                                    ),
-                                                  );
-                                                },
-                                              )
-                                            : const Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: Color(0xff00FF99),
-                                                ),
-                                              ),
-                                        Positioned(
-                                          top: 270,
-                                          child: mediaDetail?['logo_path'] !=
-                                                  null
-                                              ? Image.network(
-                                                  mediaDetail!['logo_path'],
-                                                  width: 350,
-                                                  height: 80,
-                                                  fit: BoxFit.contain,
-                                                  loadingBuilder: (context,
-                                                      child, loadingProgress) {
-                                                    if (loadingProgress == null)
-                                                      return child;
-                                                    return const Center(
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        color:
-                                                            Color(0xff00FF99),
-                                                      ),
-                                                    );
-                                                  },
-                                                )
-                                              : Container(
-                                                  width: 350,
-                                                  height: 120,
-                                                  child: Column(
-                                                    children: [
-                                                      Text(
-                                                        mediaDetail != null
-                                                            ? (widget.media
-                                                                        .mediaType ==
-                                                                    'movie'
-                                                                ? mediaDetail![
-                                                                        'title'] ??
-                                                                    '제목 없음'
-                                                                : mediaDetail![
-                                                                        'name'] ??
-                                                                    '이름 없음')
-                                                            : '정보 없음',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        maxLines: 2,
-                                                        style: const TextStyle(
-                                                          fontSize: 30,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(height: 110),
-                                  Container(
-                                    padding: const EdgeInsets.all(3),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          width: 280,
-                                          height: 45,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 15),
-                                          margin:
-                                              const EdgeInsets.only(bottom: 10),
-                                          decoration: BoxDecoration(
-                                            color:
-                                                Colors.white.withOpacity(0.2),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              mediaDetail?['keywords'] !=
-                                                          null &&
-                                                      mediaDetail!['keywords']
-                                                          .isNotEmpty
-                                                  ? (mediaDetail!['keywords']
-                                                          as List)
-                                                      .map((keyword) =>
-                                                          keyword['name'])
-                                                      .take(4)
-                                                      .join(', ')
-                                                  : "키워드 없음",
-                                              style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 30),
-                                        Container(
-                                          width: 45,
-                                          height: 45,
-                                          margin:
-                                              const EdgeInsets.only(bottom: 10),
-                                          decoration: BoxDecoration(
-                                            color:
-                                                Colors.white.withOpacity(0.2),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: ToggleBookmarkButton(
-                                            isBookmarked: bookmark,
-                                            onToggle: () {
-                                              toggleBookmark();
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                              color: Colors.black.withOpacity(0.2),
+                              child: detailPoster(
+                                mediaDetail: mediaDetail,
+                                bookmark: bookmark,
+                                toggleBookmark: toggleBookmark,
                               ),
                             ),
                           ),
                         ),
                       ),
                       Positioned(
-                        top: 20,
-                        left: 0,
-                        right: 0,
-                        child: AppBar(
-                          leading: IconButton(
-                            icon: const Icon(
-                              Icons.arrow_back_ios_new,
-                              size: 30,
-                              color: Color(0xff00FF99),
+                        top: 80,
+                        left: 10,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(50),
                             ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
+                            child: const Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                              size: 24,
+                            ),
                           ),
-                          backgroundColor: Colors.transparent,
-                          elevation: 0,
                         ),
-                      )
+                      ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 15, 15, 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: List.generate(
-                            5,
-                            (index) {
-                              final double rating =
-                                  (mediaDetail?['vote_average'] ?? 0) / 2;
-                              if (index < rating.floor()) {
-                                return const Icon(
-                                  Icons.star,
-                                  color: Color(0xff00FF99),
-                                  size: 35,
-                                );
-                              } else if (index == rating.floor() &&
-                                  rating % 1 > 0) {
-                                return const Icon(
-                                  Icons.star_half,
-                                  color: Color(0xff00FF99),
-                                  size: 35,
-                                );
-                              } else {
-                                return const Icon(
-                                  Icons.star_border,
-                                  color: Color(0xff00FF99),
-                                  size: 35,
-                                );
-                              }
-                            },
-                          ),
-                        ),
-                        if (widget.media.mediaType == 'tv')
-                          Text(
-                            "시즌 ${mediaDetail?['seasons'].length ?? 0}개",
-                            style: const TextStyle(
-                              color: Colors.white70,
-                              fontSize: 20,
-                            ),
-                          )
-                        else
-                          Text(
-                            mediaDetail?['runtime'] != null
-                                ? "${(mediaDetail!['runtime'] ~/ 60)}시간 ${mediaDetail!['runtime'] % 60}분"
-                                : "0분",
-                            style: const TextStyle(
-                              color: Colors.white70,
-                              fontSize: 20,
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                  if (mediaDetail?['stillcuts'] != null &&
+
+                  // 밑에 정보들
+                  DetailTop(
+                      mediaDetail: mediaDetail,
+                      widget: widget), // 별점, 런타임, 시즌 수
+
+                  if (mediaDetail?['stillcuts'] != null && // 스틸컷
                       mediaDetail!['stillcuts'].isNotEmpty)
                     StillcutBox(mediaDetail: mediaDetail),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        mediaDetail?['overview'] ?? '추후 줄거리 추가 예정',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
+
+                  Overview(mediaDetail: mediaDetail), // 줄거리
                   if (mediaDetail?['cast'] != null &&
                       mediaDetail!['cast'].isNotEmpty)
-                    Container(
-                      margin: const EdgeInsets.only(top: 10),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.fromLTRB(15, 20, 15, 5),
-                            child: Text(
-                              "주요 출연진",
-                              style: TextStyle(
-                                color: Color(0xff00FF99),
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 250,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: mediaDetail!['cast'].length,
-                              itemBuilder: (context, index) {
-                                final castMember = mediaDetail!['cast'][index];
-                                return CastBox(castMember: castMember);
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    CastContainer(mediaDetail: mediaDetail), // 캐스팅 배우
+
+                  SimilarBoxSlider(
+                    // 비슷한 영화
+                    medias: similarMedias,
+                    category: widget.media.mediaType == 'movie'
+                        ? '비슷한 영화'
+                        : '비슷한 시리즈 & TV프로그램',
+                    contentType: widget.media.mediaType,
+                    id: mediaDetail?['id'],
+                  ),
+
                   const Padding(
                     padding: EdgeInsets.fromLTRB(15, 20, 15, 0),
                     child: Text(
@@ -468,36 +252,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           height: 120,
                           child: Column(
                             children: [
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    if (mediaDetail?['providers'] != null &&
-                                        mediaDetail!['providers'].isNotEmpty)
-                                      ...mediaDetail!['providers']
-                                          .map((provider) {
-                                        return PlatformBox(
-                                          logoPath: provider['logo_path'],
-                                          providerName:
-                                              provider['provider_name'],
-                                        );
-                                      }).toList()
-                                    else
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 20),
-                                        child: const Text(
-                                          '제공 중인 스트리밍 서비스가 없습니다',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                              ),
+                              platformContainer(mediaDetail: mediaDetail),
                             ],
                           ),
                         ),

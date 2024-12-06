@@ -105,7 +105,7 @@ class _SearchPageState extends State<SearchPage> {
                   },
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                    hintText: '검색어를 입력하세요',
+                    hintText: '검색창',
                     hintStyle: TextStyle(
                       color: Colors.white.withOpacity(0.6),
                     ),

@@ -160,9 +160,9 @@ def search(keyword, page):
 
 
 # 비슷한 영화, TV 프로그램 데이터 불러오기
-@app.route("/similar/<media>/<id>", methods=["GET"])
-def similar(media, id):
-    datas = getSimilar(media, id)
+@app.route("/similar/<media>/<id>/<int:page>", methods=["GET"])
+def similar(media, id, page):
+    datas = getSimilar(media, id, page)
     return jsonify(datas)
 
 
