@@ -46,7 +46,7 @@
 		</data>
 		<key>Frameworks/App.framework/App</key>
 		<data>
-		vpVyR/KD02THXZCbtayNqDK7TQU=
+		zwekx5+/izleg3702kIPKUUph1o=
 		</data>
 		<key>Frameworks/App.framework/Info.plist</key>
 		<data>
@@ -54,15 +54,15 @@
 		</data>
 		<key>Frameworks/App.framework/_CodeSignature/CodeResources</key>
 		<data>
-		nHHBZuI23TsBmuYJzZ/Wvrth6CM=
+		sUBOkH9cDliOvC2akJw/UGFb730=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
 		<data>
-		KOrVu+rnErvhzPdrsgHRuOZ7IWY=
+		9+7Ltqx2NGhMqhR0zfG7TzeTYPg=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.json</key>
 		<data>
-		pbS4sP1VGbSM77ssck9biVSxBdQ=
+		80vuU7ZpulwgmmC9Xh2zAQuU+1Q=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/FontManifest.json</key>
 		<data>
@@ -70,7 +70,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/NOTICES.Z</key>
 		<data>
-		ayIt4R2w2qyvny+AkQv2Jej8qNw=
+		9h/5gwLtcQtakMqvzhDsIs7hOWU=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/fonts/MaterialIcons-Regular.otf</key>
 		<data>
@@ -82,7 +82,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/kernel_blob.bin</key>
 		<data>
-		buzX50x/4+08w70YqupRN7oCTIQ=
+		TyeUIMAnNgRoSCeHKK2Cxmxw++E=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/lib/assets/images/dummyMovie.png</key>
 		<data>
@@ -103,6 +103,18 @@
 		<key>Frameworks/App.framework/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
 		Bvk+P1ykE1PGRdktwgwDyz6AOqM=
+		</data>
+		<key>Frameworks/App.framework/flutter_assets/packages/flutter_inappwebview/assets/t_rex_runner/t-rex.css</key>
+		<data>
+		mBihw0DQ+fObskdvU/uJxi4GQ/4=
+		</data>
+		<key>Frameworks/App.framework/flutter_assets/packages/flutter_inappwebview/assets/t_rex_runner/t-rex.html</key>
+		<data>
+		60RUAYYoUnETCwVvpgmbGYgxn8Q=
+		</data>
+		<key>Frameworks/App.framework/flutter_assets/packages/youtube_player_flutter/assets/speedometer.webp</key>
+		<data>
+		TDvhTCHVurikSmzXUIYz0DM62Dw=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/shaders/ink_sparkle.frag</key>
 		<data>
@@ -200,6 +212,46 @@
 		<data>
 		ipm8hg7aB3LzsfShJfpNR0QQ4hw=
 		</data>
+		<key>Frameworks/OrderedSet.framework/Info.plist</key>
+		<data>
+		eoOhMmc7dDIZX13Kgqr+32QEA5I=
+		</data>
+		<key>Frameworks/OrderedSet.framework/OrderedSet</key>
+		<data>
+		FPt0fqdTKQo8tLI3tIcTft98oIA=
+		</data>
+		<key>Frameworks/OrderedSet.framework/_CodeSignature/CodeResources</key>
+		<data>
+		HkI+jz4eST1yus3a8U+32w3Zp8A=
+		</data>
+		<key>Frameworks/flutter_inappwebview.framework/Info.plist</key>
+		<data>
+		+WARhOwekvwKoi7PkwWEr3XmphI=
+		</data>
+		<key>Frameworks/flutter_inappwebview.framework/WebView.storyboardc/Info.plist</key>
+		<data>
+		Jy29WF5V3X3M6f6G20Q5Adf/5ME=
+		</data>
+		<key>Frameworks/flutter_inappwebview.framework/WebView.storyboardc/Myh-pL-l6f-view-1n8-5e-oxa.nib</key>
+		<data>
+		uty2L58SD2aV2D5N8JrNJ96V8kM=
+		</data>
+		<key>Frameworks/flutter_inappwebview.framework/WebView.storyboardc/navController.nib</key>
+		<data>
+		x9gmiAkredO3K27DxTGhbfcrOYM=
+		</data>
+		<key>Frameworks/flutter_inappwebview.framework/WebView.storyboardc/viewController.nib</key>
+		<data>
+		puXJOw1OV+kUD3RyAEuHfKh/kOo=
+		</data>
+		<key>Frameworks/flutter_inappwebview.framework/_CodeSignature/CodeResources</key>
+		<data>
+		+JWAxLqvYa85+35rL2F3OwjtrYs=
+		</data>
+		<key>Frameworks/flutter_inappwebview.framework/flutter_inappwebview</key>
+		<data>
+		r9kDSeZiAmsKIpvY5Jw5ma/pvVo=
+		</data>
 		<key>Frameworks/flutter_native_splash.framework/Info.plist</key>
 		<data>
 		iA16Pyo62gYCUS5e/ZbzgHsSyG4=
@@ -217,6 +269,26 @@
 		/pBPdfpLX3SAo6pBgSH4uEyOzb8=
 		</data>
 		<key>Frameworks/flutter_native_splash.framework/flutter_native_splash_privacy.bundle/PrivacyInfo.xcprivacy</key>
+		<data>
+		/LX0ZlwxwIAIhjZaDB8EiH5KpXA=
+		</data>
+		<key>Frameworks/url_launcher_ios.framework/Info.plist</key>
+		<data>
+		EPlt/aLuFosTe5ZNxs8Uvw/rYIE=
+		</data>
+		<key>Frameworks/url_launcher_ios.framework/_CodeSignature/CodeResources</key>
+		<data>
+		iSq+WHB3/3azK7TD7ZW0gHYcnpE=
+		</data>
+		<key>Frameworks/url_launcher_ios.framework/url_launcher_ios</key>
+		<data>
+		gDD606z19vSZ7LnePXVwMEAkNDw=
+		</data>
+		<key>Frameworks/url_launcher_ios.framework/url_launcher_ios_privacy.bundle/Info.plist</key>
+		<data>
+		3jKCc3nTYnvKJVRSRRZsqxoC1Ks=
+		</data>
+		<key>Frameworks/url_launcher_ios.framework/url_launcher_ios_privacy.bundle/PrivacyInfo.xcprivacy</key>
 		<data>
 		/LX0ZlwxwIAIhjZaDB8EiH5KpXA=
 		</data>
@@ -305,7 +377,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			KLdTNIsiUnd6ZdYXlM3CZqPFr8peJfnCcsK+CdAUDXI=
+			irNsPmOAdm+xlCZLLIutgA7Vg7Wpofg1sCBqvDIpqFU=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/Info.plist</key>
@@ -319,21 +391,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			tMXNn6RnDHwqbAAOHGDnwhTKs+jLgIVKBzlzBkd1CaQ=
+			w6pbFdPcY0tK+/cz3hr/0AwU70L6P51yDVwefBZPo2E=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.bin</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			OhXRlPZR+ZiiGsjfTyAdg+sNdZEqof1xBa+ayBYVPs8=
+			9ZXyIFrRCwDdBgLqr1dEwyrsVyj4qauqrJefYn6Rq5c=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			gA+TCX62ecmvdb+py7vfHYbrizP2IUradkcEEYfk/DQ=
+			y8b2iM3rggFA4PeZpugQUn+x22PQCY7FYLBXZDnbeNo=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/FontManifest.json</key>
@@ -347,7 +419,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			J1bL20uhcdz0k6BE4r6A7nLy/cpS6qYnE97EtowuDxE=
+			3L5VmZBKOFIkSF1lGe+pCPA8f6R2mtaqw47ZsrEN0Bk=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/fonts/MaterialIcons-Regular.otf</key>
@@ -368,7 +440,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			XZWU6qBM8SaUh+GVp9YmZODJg6TD3wkOnINcUgWYOZ8=
+			MvB6bBRuNrtKCbNilFeX/SngXFle6JHdkg94SEEDshw=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/lib/assets/images/dummyMovie.png</key>
@@ -404,6 +476,27 @@
 			<key>hash2</key>
 			<data>
 			Z8RP6Rg7AC553ef2l34piGYcmj5KPF/OloeH79vtgjw=
+			</data>
+		</dict>
+		<key>Frameworks/App.framework/flutter_assets/packages/flutter_inappwebview/assets/t_rex_runner/t-rex.css</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			LlYyIL2FXhHyMNwnoNby/VuDmimW+G7cgCWqtF5vpcM=
+			</data>
+		</dict>
+		<key>Frameworks/App.framework/flutter_assets/packages/flutter_inappwebview/assets/t_rex_runner/t-rex.html</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			3HLPwfHSpQE7ud40+MrPXiblQtfXE/y+CbhltKrKbd8=
+			</data>
+		</dict>
+		<key>Frameworks/App.framework/flutter_assets/packages/youtube_player_flutter/assets/speedometer.webp</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			UyJsGpac7pIldiQobLwRFgmPJCSQLk0Ald1JuO/hCTg=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/shaders/ink_sparkle.frag</key>
@@ -574,6 +667,76 @@
 			wSU3Ai74GJkae/7UGnbY1q6WL/vA5lEax2Kl0IRef3w=
 			</data>
 		</dict>
+		<key>Frameworks/OrderedSet.framework/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Kyi4lcrk2TTantNTYsEXb5UHtq+rX5H2vjUDvi0Ksds=
+			</data>
+		</dict>
+		<key>Frameworks/OrderedSet.framework/OrderedSet</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			gDfFlyWyBx/uq+HlTMLqrf8ptu75JQJKZXKOUOU8vXw=
+			</data>
+		</dict>
+		<key>Frameworks/OrderedSet.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			8uG3SjXyCuSj/JaKkLWo/27Y7+D7Ouj1KtuVRylyMvg=
+			</data>
+		</dict>
+		<key>Frameworks/flutter_inappwebview.framework/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			cMCMkAGT6QHUM1G4ipS9Q9Y2H2TwiV4Ev27Q3jzkcG8=
+			</data>
+		</dict>
+		<key>Frameworks/flutter_inappwebview.framework/WebView.storyboardc/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			KHCcIMSR/wfVkGHOiPdC9Uu240k7G+mdZF80IbA2mvI=
+			</data>
+		</dict>
+		<key>Frameworks/flutter_inappwebview.framework/WebView.storyboardc/Myh-pL-l6f-view-1n8-5e-oxa.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			06d2t4A877H8Rt3w2KC6/tsFOJX8+EtEBLJ4gTDm0UQ=
+			</data>
+		</dict>
+		<key>Frameworks/flutter_inappwebview.framework/WebView.storyboardc/navController.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Vh5T8of0vLPjxsvUY2kvjm+90fauKNT1wcOb+LOl4dA=
+			</data>
+		</dict>
+		<key>Frameworks/flutter_inappwebview.framework/WebView.storyboardc/viewController.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			AOsirqbPJ77SekVdQUg2eKLWGjC0sMSbsWNSZ05pGw8=
+			</data>
+		</dict>
+		<key>Frameworks/flutter_inappwebview.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ZfcqpROUMmgis3aLoe7Zfo2PHFdEs+3Rc0VmUqhffbs=
+			</data>
+		</dict>
+		<key>Frameworks/flutter_inappwebview.framework/flutter_inappwebview</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			web/ldhX5SQwwWAWuEBFoNk5jPcnOIEJOL38mJ126A8=
+			</data>
+		</dict>
 		<key>Frameworks/flutter_native_splash.framework/Info.plist</key>
 		<dict>
 			<key>hash2</key>
@@ -603,6 +766,41 @@
 			</data>
 		</dict>
 		<key>Frameworks/flutter_native_splash.framework/flutter_native_splash_privacy.bundle/PrivacyInfo.xcprivacy</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			bS2g2NkwIn1CjB2TY7CtbjoS4sm2jFzilxWKdBL8jDE=
+			</data>
+		</dict>
+		<key>Frameworks/url_launcher_ios.framework/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			J8n+QXKN7GYAzPWsS71AC0LV9fZqdaulSp2O60ScLjI=
+			</data>
+		</dict>
+		<key>Frameworks/url_launcher_ios.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			obcj4S6deSbUfTDS+vlKpgFRIFQ9Mc5y+hxx6N4q/Cs=
+			</data>
+		</dict>
+		<key>Frameworks/url_launcher_ios.framework/url_launcher_ios</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+SwGKhciDvh6lPqXQl90KrtB29JX0//xTUNLPZO5Oq8=
+			</data>
+		</dict>
+		<key>Frameworks/url_launcher_ios.framework/url_launcher_ios_privacy.bundle/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			i5S7sLiA9WoJLUP0t/fMFaqMUcSzrjSrvVJz3T23bS8=
+			</data>
+		</dict>
+		<key>Frameworks/url_launcher_ios.framework/url_launcher_ios_privacy.bundle/PrivacyInfo.xcprivacy</key>
 		<dict>
 			<key>hash2</key>
 			<data>

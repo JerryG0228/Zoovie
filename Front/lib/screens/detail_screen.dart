@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:zoovie/models/media_model.dart';
 import 'package:zoovie/widgets/detail_widgets/cast/cast_container.dart';
 import 'package:zoovie/widgets/detail_widgets/detail_poster.dart';
@@ -11,6 +12,8 @@ import 'package:zoovie/widgets/detail_widgets/stillcut_box.dart';
 import 'package:get/get.dart';
 import 'package:zoovie/controllers/user_controller.dart';
 import 'package:zoovie/widgets/detail_widgets/similar_box_slider.dart';
+import 'package:zoovie/widgets/main_widgets/video_btn.dart';
+import 'package:zoovie/widgets/main_widgets/youtube_player.dart';
 
 class DetailScreen extends StatefulWidget {
   final MediaModel media;
@@ -188,7 +191,22 @@ class _DetailScreenState extends State<DetailScreen> {
                     ],
                   ),
 
-                  // 밑에 정보들
+                  // 비디오 버튼 컨테이너
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 130),
+                    child: Container(
+                      height: 45,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Center(
+                        // 중앙 정렬 추가
+                        child: VideoBtn(media: widget.media),
+                      ),
+                    ),
+                  ),
+
                   DetailTop(
                       mediaDetail: mediaDetail,
                       widget: widget), // 별점, 런타임, 시즌 수

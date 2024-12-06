@@ -5,7 +5,7 @@ import 'package:zoovie/models/media_model.dart';
 import 'package:zoovie/screens/detail_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:zoovie/widgets/bookmark_widgets/bookmark_btn.dart';
+import 'package:zoovie/widgets/main_widgets/video_btn.dart';
 
 class Carousel extends StatefulWidget {
   final List<MediaModel> medias;
@@ -165,25 +165,7 @@ class _CarouselState extends State<Carousel> {
                 ),
                 child: Material(
                   color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {},
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.play_arrow,
-                          color: Colors.black,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(3),
-                        ),
-                        Text(
-                          "재생",
-                          style: TextStyle(color: Colors.black),
-                        )
-                      ],
-                    ),
-                  ),
+                  child: VideoBtn(media: medias[_currPage]),
                 ),
               ),
             ),
@@ -252,8 +234,7 @@ List<Widget> makeIndicator(List list, int _currPage) {
 class BookmarkButton extends StatelessWidget {
   final bool isBookmarked;
 
-  const BookmarkButton({Key? key, required this.isBookmarked})
-      : super(key: key);
+  const BookmarkButton({super.key, required this.isBookmarked});
 
   @override
   Widget build(BuildContext context) {

@@ -173,5 +173,12 @@ def keyword(media, id):
     return jsonify(datas)
 
 
+# 티저 영상 검색
+@app.route("/video/<media>/<id>", methods=["GET"])
+def video(media, id):
+    datas = getVideo(media, id)
+    return jsonify(datas)
+
+
 if __name__ == '__main__':
     app.run()

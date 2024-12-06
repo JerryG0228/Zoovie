@@ -219,3 +219,19 @@ def getSimilar(media, id, page):
     ]
 
     return results
+
+
+# 티저 영상 주소값
+def getVideo(media, id):
+    url = f"https://api.themoviedb.org/3/{media}/{id}/videos?language=ko-KR"
+
+    response = requests.get(url, headers=headers)
+    data = json.loads(response.text)
+
+    results = [
+        "https://www.youtube.com/watch?v=" + result['key']
+        for result in data.get('results', [])
+        if result.get('type') in ['Teaser', 'Trailer']
+    ]
+
+    return results[0] if results else []
