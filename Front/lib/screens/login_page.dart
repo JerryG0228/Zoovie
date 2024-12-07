@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _login(String email, String password) async {
     try {
       final response = await _dio.post(
-        'http://127.0.0.1:5000/login',
+        'http://127.0.0.1:5000/user/login',
         data: {
           'email': email,
           'password': password,
@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
         try {
           print('사용자 정보 요청');
           final userResponse = await _dio.post(
-            'http://127.0.0.1:5000/user',
+            'http://127.0.0.1:5000/user/user',
             data: {
               'email': email,
             },

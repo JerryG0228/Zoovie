@@ -7,7 +7,7 @@ Widget ScrapBox(String type, List<dynamic> mediaIds) {
   Future<Map<String, dynamic>?> fetchMediaData(String media, String id) async {
     try {
       final response =
-          await Dio().get('http://127.0.0.1:5000/getdatabyid/$media/$id');
+          await Dio().get('http://127.0.0.1:5000/media/getdatabyid/$media/$id');
       return response.data;
     } catch (e) {
       throw Exception('Failed to load media data: $e');

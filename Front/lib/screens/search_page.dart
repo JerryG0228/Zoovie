@@ -24,8 +24,8 @@ class _SearchPageState extends State<SearchPage> {
     isLoading = true;
 
     try {
-      final response =
-          await dio.get('http://127.0.0.1:5000/search/$keyword/$currentPage');
+      final response = await dio
+          .get('http://127.0.0.1:5000/search/search/$keyword/$currentPage');
       final data = response.data;
 
       if (response.statusCode == 200) {

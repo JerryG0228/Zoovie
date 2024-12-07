@@ -37,7 +37,7 @@ class _MorePageState extends State<SimilarMorePage> {
   Future<void> loadMoreData() async {
     try {
       final response = await dio.get(
-          'http://127.0.0.1:5000/similar/${widget.contentType}/${widget.id}/$currentPage');
+          'http://127.0.0.1:5000/search/similar/${widget.contentType}/${widget.id}/$currentPage');
 
       if (response.statusCode == 200) {
         final List<dynamic> results = response.data;

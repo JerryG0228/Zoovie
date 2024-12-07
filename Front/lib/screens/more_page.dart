@@ -50,7 +50,7 @@ class _MorePageState extends State<MorePage> {
   Future<void> loadMoreData() async {
     try {
       final response = await dio.get(
-          'http://127.0.0.1:5000/$option/${widget.contentType}/$currentPage');
+          'http://127.0.0.1:5000/media/$option/${widget.contentType}/$currentPage');
 
       if (response.statusCode == 200) {
         final List<dynamic> results = response.data;

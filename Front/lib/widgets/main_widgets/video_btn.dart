@@ -20,7 +20,7 @@ class VideoBtn extends StatelessWidget {
 
         try {
           final response = await Dio().get(
-            'http://127.0.0.1:5000/video/$mediaType/$mediaId',
+            'http://127.0.0.1:5000/search/video/$mediaType/$mediaId',
           );
 
           if (response.statusCode == 200 && response.data != null) {

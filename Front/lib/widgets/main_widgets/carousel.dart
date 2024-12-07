@@ -72,8 +72,8 @@ class _CarouselState extends State<Carousel> {
     final username = Get.find<UserController>().user?.username;
 
     final url = bookmarks[_currPage]
-        ? 'http://127.0.0.1:5000/${medias[_currPage].mediaType}/cancelBookmark'
-        : 'http://127.0.0.1:5000/${medias[_currPage].mediaType}/bookmark';
+        ? 'http://127.0.0.1:5000/user/${medias[_currPage].mediaType}/cancelBookmark'
+        : 'http://127.0.0.1:5000/user/${medias[_currPage].mediaType}/bookmark';
 
     try {
       final response = await Dio().post(

@@ -57,7 +57,7 @@ class _SignupPageState extends State<SignupPage> {
     final dio = Dio();
     try {
       final response = await dio.post(
-        'http://127.0.0.1:5000/signup',
+        'http://127.0.0.1:5000/user/signup',
         data: {
           'email': _emailController.text,
           'password': _passwordController.text,

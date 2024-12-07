@@ -14,7 +14,7 @@ class ContentDataLoader {
   Future<void> loadData({required String contentType}) async {
     try {
       final response =
-          await dio.get('http://127.0.0.1:5000/$contentType/loaddatas');
+          await dio.get('http://127.0.0.1:5000/media/$contentType/loaddatas');
       final data = response.data;
 
       final nowPlayingContents = (data['nowPlaying'] as List)

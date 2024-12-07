@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:zoovie/models/media_model.dart';
 import 'package:zoovie/widgets/detail_widgets/cast/cast_container.dart';
 import 'package:zoovie/widgets/detail_widgets/detail_poster.dart';
@@ -13,7 +12,6 @@ import 'package:get/get.dart';
 import 'package:zoovie/controllers/user_controller.dart';
 import 'package:zoovie/widgets/detail_widgets/similar_box_slider.dart';
 import 'package:zoovie/widgets/main_widgets/video_btn.dart';
-import 'package:zoovie/widgets/main_widgets/youtube_player.dart';
 
 class DetailScreen extends StatefulWidget {
   final MediaModel media;
@@ -33,7 +31,7 @@ class _DetailScreenState extends State<DetailScreen> {
   Future<Map<String, dynamic>?> fetchmediaDetail() async {
     try {
       final response = await dio.get(
-          'http://127.0.0.1:5000/getdatabyid/${widget.media.mediaType}/${widget.media.id}');
+          'http://127.0.0.1:5000/media/getdatabyid/${widget.media.mediaType}/${widget.media.id}');
       return response.data;
     } catch (e) {
       print('Error fetching media detail: $e');
@@ -44,7 +42,7 @@ class _DetailScreenState extends State<DetailScreen> {
   Future<void> fetchSimilarMedias() async {
     try {
       final response = await dio.get(
-          'http://127.0.0.1:5000/similar/${widget.media.mediaType}/${widget.media.id}/1');
+          'http://127.0.0.1:5000/search/similar/${widget.media.mediaType}/${widget.media.id}/1');
       if (response.statusCode == 200) {
         similarMedias = (response.data as List)
             .map((media) => MediaModel.fromJson(media))
@@ -60,8 +58,8 @@ class _DetailScreenState extends State<DetailScreen> {
     final username = Get.find<UserController>().user?.username;
 
     final url = bookmark
-        ? 'http://127.0.0.1:5000/${widget.media.mediaType}/cancelBookmark'
-        : 'http://127.0.0.1:5000/${widget.media.mediaType}/bookmark';
+        ? 'http://127.0.0.1:5000/user/${widget.media.mediaType}/cancelBookmark'
+        : 'http://127.0.0.1:5000/user/${widget.media.mediaType}/bookmark';
 
     try {
       final response = await dio.post(
