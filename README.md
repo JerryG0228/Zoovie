@@ -77,7 +77,7 @@ flutter run
 <br/>
 
 ## :fire: Contributing
-Please refer to [CONTRIBUTING.md](https://github.com/JerryG0228/Zoovie/main/CONTRIBUTING.md) for Contribution.
+Please refer to [CONTRIBUTING.md](https://github.com/JerryG0228/Zoovie/blob/main/CONTRIBUTING.md) for Contribution.
 
 For issues, new functions and requests to modify please follow the following procedure. 🥰
 
