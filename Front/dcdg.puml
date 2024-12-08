@@ -1,0 +1,407 @@
+@startuml zoovie
+set namespaceSeparator ::
+
+class "zoovie::apis::main_load_data.dart::ContentDataLoader" {
+  +Dio dio
+  +dynamic Function(List<MediaModel>, List<MediaModel>, List<MediaModel>, List<MediaModel>) onDataLoaded
+  +dynamic loadData()
+}
+
+"zoovie::apis::main_load_data.dart::ContentDataLoader" o-- "dio::src::dio.dart::Dio"
+"zoovie::apis::main_load_data.dart::ContentDataLoader" o-- "null::dynamic Function(List<MediaModel>, List<MediaModel>, List<MediaModel>, List<MediaModel>)"
+
+class "zoovie::models::media_model.dart::MediaModel" {
+  +String title
+  +String posterPath
+  +double? voteAverage
+  +String? releaseDate
+  +int id
+  +String mediaType
+  +bool bookmark
+  +String toString()
+}
+
+class "zoovie::models::user_model.dart::User" {
+  +String username
+  +String email
+  +Map<String, List<String>> bookmarked
+}
+
+class "zoovie::screens::main_page.dart::MainPage" {
+  +State<MainPage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "zoovie::screens::main_page.dart::MainPage"
+
+class "zoovie::screens::main_page.dart::_MainPageState" {
+  +ContentDataLoader contentLoader
+  +Dio dio
+  +List<MediaModel> nowPlayingContents
+  +List<MediaModel> popularContents
+  +List<MediaModel> topRatedContents
+  +List<MediaModel> upcomingContents
+  +bool isLoading
+  +String currentContentType
+  +void initState()
+  +dynamic loadMovieData()
+  +Widget build()
+}
+
+"zoovie::screens::main_page.dart::_MainPageState" o-- "zoovie::apis::main_load_data.dart::ContentDataLoader"
+"zoovie::screens::main_page.dart::_MainPageState" o-- "dio::src::dio.dart::Dio"
+"flutter::src::widgets::framework.dart::State" <|-- "zoovie::screens::main_page.dart::_MainPageState"
+
+class "zoovie::screens::signup_page.dart::SignupPage" {
+  +State<SignupPage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "zoovie::screens::signup_page.dart::SignupPage"
+
+class "zoovie::screens::signup_page.dart::_SignupPageState" {
+  -GlobalKey<FormState> _formKey
+  -TextEditingController _emailController
+  -TextEditingController _passwordController
+  -TextEditingController _confirmPasswordController
+  -TextEditingController _nicknameController
+  -bool _isFormValid()
+  +void initState()
+  +void dispose()
+  -void _onFormChanged()
+  -dynamic _signUp()
+  +Widget build()
+}
+
+"zoovie::screens::signup_page.dart::_SignupPageState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"zoovie::screens::signup_page.dart::_SignupPageState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "zoovie::screens::signup_page.dart::_SignupPageState"
+
+class "zoovie::screens::bookmark_page.dart::BookmarkPage" {
+  +Widget build()
+}
+
+"get::get_state_manager::src::simple::get_view.dart::GetView" <|-- "zoovie::screens::bookmark_page.dart::BookmarkPage"
+
+class "zoovie::screens::login_page.dart::LoginScreen" {
+  +_LoginScreenState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "zoovie::screens::login_page.dart::LoginScreen"
+
+class "zoovie::screens::login_page.dart::_LoginScreenState" {
+  +TextEditingController emailController
+  +TextEditingController passwordController
+  +bool isFormValid
+  -Dio _dio
+  +UserController userController
+  +void initState()
+  +void updateFormValidity()
+  +void dispose()
+  -dynamic _login()
+  +Widget build()
+}
+
+"zoovie::screens::login_page.dart::_LoginScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"zoovie::screens::login_page.dart::_LoginScreenState" o-- "dio::src::dio.dart::Dio"
+"zoovie::screens::login_page.dart::_LoginScreenState" o-- "zoovie::controllers::user_controller.dart::UserController"
+"flutter::src::widgets::framework.dart::State" <|-- "zoovie::screens::login_page.dart::_LoginScreenState"
+
+class "zoovie::screens::similar_more_page.dart::SimilarMorePage" {
+  +String category
+  +String contentType
+  +int id
+  +State<SimilarMorePage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "zoovie::screens::similar_more_page.dart::SimilarMorePage"
+
+class "zoovie::screens::similar_more_page.dart::_MorePageState" {
+  +List<MediaModel> medias
+  +bool isLoading
+  +Dio dio
+  +String option
+  +int currentPage
+  -ScrollController _scrollController
+  +void initState()
+  +dynamic loadMoreData()
+  -void _onScroll()
+  +void dispose()
+  +Widget build()
+}
+
+"zoovie::screens::similar_more_page.dart::_MorePageState" o-- "dio::src::dio.dart::Dio"
+"zoovie::screens::similar_more_page.dart::_MorePageState" o-- "flutter::src::widgets::scroll_controller.dart::ScrollController"
+"flutter::src::widgets::framework.dart::State" <|-- "zoovie::screens::similar_more_page.dart::_MorePageState"
+
+class "zoovie::screens::more_page.dart::MorePage" {
+  +String category
+  +String contentType
+  +State<MorePage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "zoovie::screens::more_page.dart::MorePage"
+
+class "zoovie::screens::more_page.dart::_MorePageState" {
+  +List<MediaModel> medias
+  +bool isLoading
+  +Dio dio
+  +String option
+  +int currentPage
+  -ScrollController _scrollController
+  +void initState()
+  +dynamic loadMoreData()
+  -void _onScroll()
+  +void dispose()
+  +Widget build()
+}
+
+"zoovie::screens::more_page.dart::_MorePageState" o-- "dio::src::dio.dart::Dio"
+"zoovie::screens::more_page.dart::_MorePageState" o-- "flutter::src::widgets::scroll_controller.dart::ScrollController"
+"flutter::src::widgets::framework.dart::State" <|-- "zoovie::screens::more_page.dart::_MorePageState"
+
+class "zoovie::screens::search_page.dart::SearchPage" {
+  +State<SearchPage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "zoovie::screens::search_page.dart::SearchPage"
+
+class "zoovie::screens::search_page.dart::_SearchPageState" {
+  +Dio dio
+  +List<MediaModel> searchResults
+  +String keyword
+  +int currentPage
+  +bool isLoading
+  -ScrollController _scrollController
+  +dynamic searchMedia()
+  +void loadMore()
+  +void initState()
+  +void dispose()
+  +void didChangeDependencies()
+  +Widget build()
+}
+
+"zoovie::screens::search_page.dart::_SearchPageState" o-- "dio::src::dio.dart::Dio"
+"zoovie::screens::search_page.dart::_SearchPageState" o-- "flutter::src::widgets::scroll_controller.dart::ScrollController"
+"flutter::src::widgets::framework.dart::State" <|-- "zoovie::screens::search_page.dart::_SearchPageState"
+
+class "zoovie::screens::my_page.dart::MyPage" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::screens::my_page.dart::MyPage"
+
+class "zoovie::screens::detail_screen.dart::DetailScreen" {
+  +MediaModel media
+  +State<DetailScreen> createState()
+}
+
+"zoovie::screens::detail_screen.dart::DetailScreen" o-- "zoovie::models::media_model.dart::MediaModel"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "zoovie::screens::detail_screen.dart::DetailScreen"
+
+class "zoovie::screens::detail_screen.dart::_DetailScreenState" {
+  +bool bookmark
+  +int movieId
+  +Map<String, dynamic>? mediaDetail
+  +Dio dio
+  +List<MediaModel> similarMedias
+  +dynamic fetchmediaDetail()
+  +dynamic fetchSimilarMedias()
+  +void toggleBookmark()
+  +void initState()
+  +Widget build()
+}
+
+"zoovie::screens::detail_screen.dart::_DetailScreenState" o-- "dio::src::dio.dart::Dio"
+"flutter::src::widgets::framework.dart::State" <|-- "zoovie::screens::detail_screen.dart::_DetailScreenState"
+
+class "zoovie::controllers::user_controller.dart::UserController" {
+  -Rx<User?> _user
+  +User? user
+  +void setUser()
+  +void clearUser()
+  +void toggleBookmark()
+}
+
+"zoovie::controllers::user_controller.dart::UserController" o-- "get::get_rx::src::rx_types::rx_types.dart::Rx<User>"
+"zoovie::controllers::user_controller.dart::UserController" o-- "zoovie::models::user_model.dart::User"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "zoovie::controllers::user_controller.dart::UserController"
+
+class "zoovie::widgets::bookmark_widgets::bookmark_btn.dart::ToggleBookmarkButton" {
+  +bool isBookmarked
+  +void Function() onToggle
+  +Widget build()
+}
+
+"zoovie::widgets::bookmark_widgets::bookmark_btn.dart::ToggleBookmarkButton" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::bookmark_widgets::bookmark_btn.dart::ToggleBookmarkButton"
+
+class "zoovie::widgets::search_widgets::Search_results.dart::SearchResults" {
+  +String keyword
+  +List<MediaModel> searchResults
+  +bool isLoading
+  -ScrollController _scrollController
+  +Widget build()
+}
+
+"zoovie::widgets::search_widgets::Search_results.dart::SearchResults" o-- "flutter::src::widgets::scroll_controller.dart::ScrollController"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::search_widgets::Search_results.dart::SearchResults"
+
+class "zoovie::widgets::main_widgets::movie_box.dart::MovieBox" {
+  +MediaModel media
+  +String contentType
+  +Widget build()
+}
+
+"zoovie::widgets::main_widgets::movie_box.dart::MovieBox" o-- "zoovie::models::media_model.dart::MediaModel"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::main_widgets::movie_box.dart::MovieBox"
+
+class "zoovie::widgets::main_widgets::carousel.dart::Carousel" {
+  +List<MediaModel> medias
+  +String contentType
+  +State<Carousel> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "zoovie::widgets::main_widgets::carousel.dart::Carousel"
+
+class "zoovie::widgets::main_widgets::carousel.dart::_CarouselState" {
+  +List<MediaModel> medias
+  +List<Widget> images
+  +List<String> keywords
+  +List<bool> bookmarks
+  -int _currPage
+  +void initState()
+  +void toggleBookmark()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "zoovie::widgets::main_widgets::carousel.dart::_CarouselState"
+
+class "zoovie::widgets::main_widgets::carousel.dart::BookmarkButton" {
+  +bool isBookmarked
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::main_widgets::carousel.dart::BookmarkButton"
+
+class "zoovie::widgets::main_widgets::youtube_player.dart::YouTubePlayerScreen" {
+  +String videoUrl
+  +State<YouTubePlayerScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "zoovie::widgets::main_widgets::youtube_player.dart::YouTubePlayerScreen"
+
+class "zoovie::widgets::main_widgets::youtube_player.dart::_YouTubePlayerScreenState" {
+  -YoutubePlayerController _controller
+  +void initState()
+  +void dispose()
+  +Widget build()
+}
+
+"zoovie::widgets::main_widgets::youtube_player.dart::_YouTubePlayerScreenState" o-- "youtube_player_flutter::src::utils::youtube_player_controller.dart::YoutubePlayerController"
+"flutter::src::widgets::framework.dart::State" <|-- "zoovie::widgets::main_widgets::youtube_player.dart::_YouTubePlayerScreenState"
+
+class "zoovie::widgets::main_widgets::video_btn.dart::VideoBtn" {
+  +MediaModel media
+  +Widget build()
+  -void _showNoVideoDialog()
+}
+
+"zoovie::widgets::main_widgets::video_btn.dart::VideoBtn" o-- "zoovie::models::media_model.dart::MediaModel"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::main_widgets::video_btn.dart::VideoBtn"
+
+class "zoovie::widgets::main_widgets::box_slider.dart::BoxSlider" {
+  +List<MediaModel> medias
+  +String category
+  +String contentType
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::main_widgets::box_slider.dart::BoxSlider"
+
+class "zoovie::widgets::bottom_bar.dart::BottomBar" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::bottom_bar.dart::BottomBar"
+
+class "zoovie::widgets::detail_widgets::detail_top.dart::DetailTop" {
+  +Map<String, dynamic>? mediaDetail
+  +DetailScreen widget
+  +Widget build()
+}
+
+"zoovie::widgets::detail_widgets::detail_top.dart::DetailTop" o-- "zoovie::screens::detail_screen.dart::DetailScreen"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::detail_widgets::detail_top.dart::DetailTop"
+
+class "zoovie::widgets::detail_widgets::cast::cast_box.dart::CastBox" {
+  +dynamic castMember
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::detail_widgets::cast::cast_box.dart::CastBox"
+
+class "zoovie::widgets::detail_widgets::cast::cast_container.dart::CastContainer" {
+  +Map<String, dynamic>? mediaDetail
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::detail_widgets::cast::cast_container.dart::CastContainer"
+
+class "zoovie::widgets::detail_widgets::platform::platform_container.dart::platformContainer" {
+  +Map<String, dynamic>? mediaDetail
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::detail_widgets::platform::platform_container.dart::platformContainer"
+
+class "zoovie::widgets::detail_widgets::platform::platform_box.dart::PlatformBox" {
+  +String logoPath
+  +String providerName
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::detail_widgets::platform::platform_box.dart::PlatformBox"
+
+class "zoovie::widgets::detail_widgets::overview.dart::Overview" {
+  +Map<String, dynamic>? mediaDetail
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::detail_widgets::overview.dart::Overview"
+
+class "zoovie::widgets::detail_widgets::similar_box_slider.dart::SimilarBoxSlider" {
+  +List<MediaModel> medias
+  +String category
+  +String contentType
+  +int id
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::detail_widgets::similar_box_slider.dart::SimilarBoxSlider"
+
+class "zoovie::widgets::detail_widgets::stillcut_box.dart::StillcutBox" {
+  +Map<String, dynamic>? mediaDetail
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::detail_widgets::stillcut_box.dart::StillcutBox"
+
+class "zoovie::widgets::user_widgets::loginTextBox.dart::LoginTextBox" {
+  +TextEditingController controller
+  +String labelText
+  +bool isPassword
+  +Widget build()
+}
+
+"zoovie::widgets::user_widgets::loginTextBox.dart::LoginTextBox" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::user_widgets::loginTextBox.dart::LoginTextBox"
+
+class "zoovie::widgets::top_bar.dart::Topbar" {
+  +dynamic Function(String) onContentTypeChanged
+  +Widget build()
+}
+
+"zoovie::widgets::top_bar.dart::Topbar" o-- "null::dynamic Function(String)"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "zoovie::widgets::top_bar.dart::Topbar"
+
+
+@enduml
