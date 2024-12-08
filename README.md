@@ -1,3 +1,4 @@
+[![MIT License][license-shield]][license-url]
 # 🍿프로젝트 이름
 
 > ZOOVIE
@@ -44,20 +45,75 @@
 
 ## 🧰기술 스택
 
-- **서버**: Flask
-- **데이터베이스**: MongoDB
-- **클라이언트**: Dart/Flutter
+- **서버**: [![Flask][Flask]][Flask-url]
+- **데이터베이스**: [![MongoDB][MongoDB]][MongoDB-url]
+- **클라이언트**: [![Flutter][Flutter]][Flutter-url]
 
-## 레포지토리 클론
-```bash
-git clone https://github.com/사용자명/저장소명.git
+<br/>
+
+## 🚀 Guideline
+
+* **Setup**
+
+## Server
+```sh
+git clone https://github.com/JerryG0228/Zoovie.git
+cd ./server
 pip install -r requirements.txt
 python3 app.py
+python3 user_service.py
+python3 media_service.py
+python3 search_service.py
 ```
+
+## Client
+```sh
+git clone https://github.com/JerryG0228/Zoovie.git
+cd ./Font
+flutter doctor
+flutter pub get
+flutter run
+```
+<br/>
+
+## :fire: Contributing
+Please refer to [CONTRIBUTING.md](https://github.com/JerryG0228/Zoovie/main/CONTRIBUTING.md) for Contribution.
+
+For issues, new functions and requests to modify please follow the following procedure. 🥰
+
+1. Fork the Project
+2. Create a Issue when you have new feature or bug, just not Typo fix
+3. Create your Feature Branch from dev Branch (`git checkout -b feat/Newfeature`)
+4. Commit your Changes (`git commit -m 'feat: add new feature'`)
+5. Push to the Branch (`git push origin feat/Newfeature`)
+6. Open a Pull Request to dev branch with Issues
+
+<br/>
 
 ## 🏁라이선스
 - 이 프로젝트는 MIT 라이선스 하에 공개됩니다. LICENSE 파일을 참조하십시오.
 
 ## ☎️연락처
-- 이메일: anfdnfl@khu.ac.kr
-- GitHub: JerryG0228
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><a href="https://github.com/JerryG0228"><img src="https://avatars.githubusercontent.com/u/75930663?v=4" width="100px;" alt=""/><br /><sub><b>Juhwan Cho</b></sub></a></td>
+    </tr>
+  </tobdy>
+</table>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[license-shield]: https://img.shields.io/github/license/JerryG0228/Zoovie.svg?style=flat
+[license-url]: https://github.com/JerryG0228/Zoovie/blob/master/LICENSE.txt
+
+[Flask]: https://img.shields.io/badge/Flask-black?style=for-the-badge&logo=Flask
+[Flask-url]: https://fastapi.tiangolo.com/ko/
+
+[MongoDB]: https://img.shields.io/badge/MongoDB-green?style=for-the-badge&logo=MongoDB
+[MongoDB-url]: https://www.mongodb.com/ko-kr
+
+[Flutter]: https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=Flutter
+[Flutter-url]: https://flutter.dev/
