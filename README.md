@@ -23,6 +23,9 @@
 
 ## 📱구현 화면
 
+https://github.com/user-attachments/assets/95a4a29e-6f0f-4d31-b4dd-3384e6c06cec
+
+
 <table>
   <tr>
     <td><img src="https://github.com/user-attachments/assets/08101dc4-810b-4b51-aa0b-693ae83d67e0" width=400></td>
